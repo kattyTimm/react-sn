@@ -1,0 +1,33 @@
+.Navbar{
+		background-color: rgba(76,103,133, 0.8);
+		height: 400px;
+}
+
+.navigation{
+	list-style-type: none;	
+	padding: 0;
+	margin: 0;}
+
+.navigation__item{ /*li*/
+	
+}
+
+.item{/*a*/
+	color: rgba(234,240,236); 
+	display: block;
+	padding-top: 10px;
+	padding-left: 10px;
+	padding-bottom: 0;
+	text-decoration: none;
+	
+	transition: all 0.5s;
+}
+
+.active{
+	color: rgba(74,156,214);
+	padding-left: 20px;	
+}
+.item:hover{
+	color: rgba(74,156,214);
+	padding-left: 20px;	
+}

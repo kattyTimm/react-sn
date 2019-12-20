@@ -1,0 +1,35 @@
+.wrapper{
+	display: grid;
+	margin: 0 auto;
+	
+	grid-template-areas:
+	"h h"
+	"n c";
+	
+	grid-template-rows: 400px 1fr;
+	grid-template-columns: 2fr 10fr;
+	grid-gap: 10px;
+     
+	width: 1500px;
+
+}
+
+.Header{
+	grid-area: h;
+}
+
+.Navbar{
+	grid-area: n;
+}
+.Profile{ /*ЭТО ПРАВИЛО удали, теперь для этих блоков обертыш .content*/
+	grid-area: c;
+}
+.content{
+	grid-area: c;
+	
+}
+table td{
+	border: 1 px solid gold;
+}
+/* // <img src="https://pbs.twimg.com/profile_banners/49559323/1525870029/1500x500" /> */
+
