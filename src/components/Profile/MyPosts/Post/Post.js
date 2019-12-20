@@ -8,10 +8,10 @@ const Post = (props) => {
 	return <div className="MyPosts">
 			<div className={styles.item}>
 				     {props.message}
-					<button>add posr</button>
-					<button>remove post</button>
+					<button>add posr </button>
+					<button>remove post </button>
 					<img src="https://im0-tub-ru.yandex.net/i?id=44675ac9a817fef8da7d097ec3c25273&n=13" className={styles.ava} />
-					<span>like - {props.likeCounter}</span>
+					<span>like - {props.likesCount}</span>
 			   </div>
 			</div>	
 }

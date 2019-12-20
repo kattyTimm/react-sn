@@ -11,7 +11,7 @@ import App from './App';
 export let renderTree = () => {	
 	ReactDOM.render(
 	<BrowserRouter>
-		<App data={store.getState()} addPost={store.addPost.bind(store)} addNewPost={store.addNewPost.bind(store)}/>
+		<App data={store.getState()} dispatch={store.dispatch.bind(store)} />
 	</BrowserRouter>
 	,document.getElementById('root'));
 }

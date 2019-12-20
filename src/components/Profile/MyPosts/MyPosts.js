@@ -10,13 +10,13 @@ const MyPosts = (props) => {
      let newPost = React.createRef(); 
 
     let BtnClick = () => {
-		props.addPost();
+		props.postHandler({type: 'ADD-POST'});
 		//props.addNewPost('');  // очищаю текстареа, но надо чтобы текстареа очищащалась в сьейт
 	} 
 	
 	let postOnchange = () => {
 		let val = newPost.current.value;
-		props.addNewPost(val);
+		props.postHandler({type: 'ADD-NEW-POST', newPost: val});
 	}
 	  console.log()
 	return <div className="MyPosts">

@@ -54,11 +54,35 @@ import ReactDOM from 'react-dom';
 	getState(){
 		return this._state;
 	},
+
+	subscribe(observer){
+		this._callSubscriber = observer;
+	},	
 	
 	_callSubscriber(){
 		console.log('state changed');
 	},
+
 	
+	dispatch(action){ // action = это объект {type: 'ADD-POST'}
+             if(action.type === 'ADD-POST'){
+             		let newPost = {id: 5, message: this._state.profile.newValue, likesCount: 25};
+					this._state.profile.posts.push(newPost); 
+					this._state.profile.newValue = '';
+					this._callSubscriber();
+				}else if(action.type === 'ADD-NEW-POST'){
+					this._state.profile.newValue = action.newPost;
+		            this._callSubscriber();
+				}
+	}
+}
+
+export default store;
+
+window.store = store;
+
+	/*
+
 	addPost(){
 		let newPost = {id: 5, message: this._state.profile.newValue, likesCount: 25};
 		this._state.profile.posts.push(newPost); 
@@ -70,16 +94,8 @@ import ReactDOM from 'react-dom';
 		this._state.profile.newValue = newPost;
 		this._callSubscriber();
 	},
-	
-	subscribe(observer){
-		this._callSubscriber = observer;
-	}
-}
 
-export default store;
-
-window.store = store;
-
+*/
 // let renderTree = () => {
 	// console.log('state changed');
 // }
