@@ -16,7 +16,7 @@ export let renderTree = () => {
 	,document.getElementById('root'));
 }
 
-renderTree(store.getState()); // отрисосвывает Апп
+renderTree(store.getState()); // renderTree отрисосвывает Апп
 store.subscribe(renderTree);
 
 

@@ -3,18 +3,17 @@ import s from './Music.module.css';
 
 const Music = (props) => {
 	console.log(props);
-	let music = props.list.music.map((elem, i) => <div key={i}> {elem.track}</div>)
+	let music = props.list.music.map((elem, i) => <div key={i}> {elem.track} </div>);
 	
 	let refElem = React.createRef();
 	
 	let btnClickHandler = () => {
-		props.add();
-		//здесь будет функция из стэйт, добавляющая по клику новое значение
+		props.dispatch({type: 'FIND-SONG'});
 	}
 	
     let inputHandler = () => {
 		let value = refElem.current.value;
-		    props.write(value);
+		props.dispatch({type: 'SEARCH', value});
 	}
 	
 	return (
@@ -23,11 +22,12 @@ const Music = (props) => {
 				 {music}
 				 <div>
 				 <p>лобавить в плейлист</p>
-				 <input ref={refElem} onChange={inputHandler} value={props.data.newVal}/>
+				 <input ref={refElem} onChange={inputHandler} value={props.list.newVal} />
 				 <button onClick={btnClickHandler}>добавить трек</button>
 				 </div>
 	  </div>
 	)
 }
+
 
 export default Music;

@@ -3,6 +3,7 @@ import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
+import {addDialog, createDialog} from'../../state';
 
 
 const Dialogs = (props) => {	
@@ -11,13 +12,16 @@ const Dialogs = (props) => {
 	let messages = props.dialogs.messagesData.map((item, i) => <Message key={i} message={item.message} id={item.id} />);
 	
 	let refElem = React.createRef();
-	let text;
+	
 	let clickHandler = () => {
-		text = refElem.current.value; 
-		console.log(text);
-		return <p>{text}</p>
+	   props.dispatch(addDialog());
 	}
 	
+    let changeHandler = () => {
+    	let text = refElem.current.value; 
+    	props.dispatch(createDialog(text));
+    }
+
 	return (
 <div className={s.dialogs}>
 	     
@@ -29,10 +33,9 @@ const Dialogs = (props) => {
 			  {messages}
 		 </div>
 	     <div>
-		        <textarea ref={refElem}></textarea>
+		        <textarea ref={refElem} value={props.dialogs.areaVal} onChange={changeHandler} />
 				<button onClick={clickHandler}>send message</button>
 		 </div> 
-		      {text}
 	  </div>
 	)
 }

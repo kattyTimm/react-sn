@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post'
+import {addPostActionCreator, addNewPostActionCreator} from '../../../state';
 
 const MyPosts = (props) => {
 	console.log(props)
@@ -10,13 +11,13 @@ const MyPosts = (props) => {
      let newPost = React.createRef(); 
 
     let BtnClick = () => {
-		props.postHandler({type: 'ADD-POST'});
+		props.postHandler(addPostActionCreator());
 		//props.addNewPost('');  // очищаю текстареа, но надо чтобы текстареа очищащалась в сьейт
 	} 
 	
 	let postOnchange = () => {
 		let val = newPost.current.value;
-		props.postHandler({type: 'ADD-NEW-POST', newPost: val});
+		props.postHandler(addNewPostActionCreator(val));
 	}
 	  console.log()
 	return <div className="MyPosts">
