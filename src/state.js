@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {profileReducer} from './ProfileReducer';
+import {dialogsReducer} from './dialogsReducer';
+import {musicReducer} from './musicReducer';
 
-const ADD_POST =  'ADD-POST';
-const ADD_NEW_POST =  'ADD-NEW-POST';
-const CREATE_DIALOG = 'CREATE-DIALOG';
-const ADD_DIALOG = 'ADD-DIALOG';
 
  let store = {
 	_state: {
@@ -71,16 +70,13 @@ const ADD_DIALOG = 'ADD-DIALOG';
 
 	
 	dispatch(action){ // action = это объект {type: 'ADD-POST'}
-             if(action.type === ADD_POST){
-             		let newPost = {id: 5, message: this._state.profile.newValue, likesCount: 25};
-					this._state.profile.posts.push(newPost); 
-					this._state.profile.newValue = '';
-					this._callSubscriber();
-				}else if(action.type === ADD_NEW_POST){
-					this._state.profile.newValue = action.newPost;
-					
-		            this._callSubscriber();
-				}else if(action.type === 'ADD-HEADLINE'){
+         
+				 this._state.profile = profileReducer(this._state.profile, action);
+				 this._state.dialogs = dialogsReducer(this._state.dialogs, action);
+				 this._state.musicList = musicReducer(this._state.musicList, action);
+				 this._callSubscriber();
+
+				 if(action.type === 'ADD-HEADLINE'){
 					let text = {id: 1, name: this._state.sidebar.newValue}
 
 					this._state.sidebar.friends.push(text);
@@ -89,31 +85,18 @@ const ADD_DIALOG = 'ADD-DIALOG';
 				}else if(action.type === 'CHANGE_TEXTAREA'){
 					this._state.sidebar.newValue = action.text;
 					this._callSubscriber();
-				}else if(action.type === 'SEARCH'){
+				}/*else if(action.type === 'SEARCH'){
                    this._state.musicList.newVal = action.value;
                    this._callSubscriber();
 				}else if(action.type === 'FIND-SONG'){
 					this._state.musicList.music.push({track: this._state.musicList.newVal});
 					this._state.musicList.newVal ='';
 					this._callSubscriber();
-				}else if(action.type === CREATE_DIALOG){
-					this._state.dialogs.areaVal = action.newDialog;
-					this._callSubscriber();
-				}else if(action.type === ADD_DIALOG){
-					this._state.dialogs.messagesData.push({id: 5, message: this._state.dialogs.areaVal});
-					this._state.dialogs.areaVal = '';
-					this._callSubscriber();
-				}
-	}
+				}*/
+     }
 }
 
-export const addPostActionCreator = () => ({type: ADD_POST});
 
-export const addNewPostActionCreator = (val) => ({type: ADD_NEW_POST, newPost: val});
-
-export const createDialog = (text) => ({type: CREATE_DIALOG, newDialog: text});
-
-export const addDialog = () => ({type: ADD_DIALOG});
 
 export default store;
 
