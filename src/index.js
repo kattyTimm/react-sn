@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './state';  
+import store from './reduxStore';  
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
 // import {addPost} from './state';
@@ -17,7 +17,9 @@ export let renderTree = () => {
 }
 
 renderTree(store.getState()); // renderTree отрисосвывает Апп
-store.subscribe(renderTree);
+store.subscribe( () => {
+	renderTree(store.getState());
+});
 
 
 

@@ -4,7 +4,14 @@ import React from 'react';
 const ADD_POST =  'ADD-POST';
 const ADD_NEW_POST =  'ADD-NEW-POST';
 
-export const profileReducer = (state, action) => {	
+let initialSate = {
+	posts: [
+				   {id: 1, message: 'post 1', likesCount: 12},
+				   {id: 2, message: 'post 2', likesCount: 20}
+			   ], newValue: ''
+}
+
+export const profileReducer = (state = initialSate, action) => {	
         
   switch(action.type){
   	case ADD_POST:
