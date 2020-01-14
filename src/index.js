@@ -8,17 +8,19 @@ import App from './App';
 // import {changeNewPostText, writeMusicVal, addMusicVal} from './state';
 
 
-export let renderTree = () => {	
+export let renderTree = (state) => {	
 	ReactDOM.render(
 	<BrowserRouter>
-		<App data={store.getState()} dispatch={store.dispatch.bind(store)} />
+		<App state={state} store={store} dispatch={store.dispatch.bind(store)} />
 	</BrowserRouter>
 	,document.getElementById('root'));
 }
 
 renderTree(store.getState()); // renderTree отрисосвывает Апп
+
 store.subscribe( () => {
-	renderTree(store.getState());
+	let state = store.getState();
+	renderTree(state);
 });
 
 

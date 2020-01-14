@@ -8,18 +8,21 @@ import {addDialog, createDialog} from'../../dialogsReducer';
 
 const Dialogs = (props) => {	
 	
-	let dialogsItems = props.dialogs.dialogsData.map((item, i) => <DialogItem key={i} name={item.name} id={item.id} />);
-	let messages = props.dialogs.messagesData.map((item, i) => <Message key={i} message={item.message} id={item.id} />);
+    let state = props.dialogs;
+
+	let dialogsItems = state.dialogsData.map((item, i) => <DialogItem key={i} name={item.name} id={item.id} />);
+	let messages = state.messagesData.map((item, i) => <Message key={i} message={item.message} id={item.id} />);
 	
 	let refElem = React.createRef();
 	
 	let clickHandler = () => {
-	   props.dispatch(addDialog());
+	   props.addMessage();
 	}
 	
-    let changeHandler = () => {
-    	let text = refElem.current.value; 
-    	props.dispatch(createDialog(text));
+    let changeHandler = (e) => {
+    	let text = e.target.value; 
+    	props.upDateNewMessageBody(text);
+    	//props.dispatch(createDialog(text));
     }
 
 	return (
