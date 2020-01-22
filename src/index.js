@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import store from './reduxStore';  
 import {BrowserRouter} from 'react-router-dom';
 import App from './App';
-// import {addPost} from './state';
-// import {addNewPost, subscribe} from './state';
-// import {changeNewPostText, writeMusicVal, addMusicVal} from './state';
+import {Provider} from 'react-redux';
+
 
 
 export let renderTree = (state) => {	
 	ReactDOM.render(
 	<BrowserRouter>
-		<App state={state} store={store} dispatch={store.dispatch.bind(store)} />
+	    <Provider  store={store}>
+		     <App state={state} store={store} dispatch={store.dispatch.bind(store)} />
+		</Provider>
 	</BrowserRouter>
 	,document.getElementById('root'));
 }
@@ -23,6 +24,35 @@ store.subscribe( () => {
 	renderTree(state);
 });
 
+/*
+let obj = {
+	num: 10,
+	protocol: 'http',
+	bool: true,
+	arr: ['1','2','3'],
+	classroom: {
+		teather: {
+			name: 'fff',
+			age: 23
+		}
+	}
+}
 
 
+function copyObj(obj){
 
+		let newObj = {...obj};
+		return newObj;
+
+}
+
+
+let copy = copyObj(obj);
+
+copy.classroom.teather.name = 'zopa';
+copy.arr.push('one more val');
+obj.classroom.push({key: 'value'});
+
+console.log(obj);
+console.log(copy);
+*/

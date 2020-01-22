@@ -29,5 +29,6 @@ export const musicReducer = (state = initialState, action) => {
   }
 }
 
+export const addOnClickMusic = () => ({type: FIND_SONG});
 
-
+export const findOnChangeSong = (val) => ({type: SEARCH, newVal: val});

@@ -5,9 +5,9 @@ import Navbar from './components/Navbar/Navbar';
 import Profile from './components/Profile/Profile';
 import Footer from './components/Footer/Footer';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
-import News from './components/News/News';
-import Music from './components/Music/Music';
-import Settings from './components/Settings/Settings';
+import NewsContainer from './components/News/NewsContainer';
+import MusicContainer from './components/Music/MusicContainer';
+import SettingsContainer from './components/Settings/SettingsContainer';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 const App = (props) => {
@@ -19,9 +19,9 @@ const App = (props) => {
 		 <div className="content">
 			   <Route path = '/dialogs' render={() => <DialogsContainer store={props.store} /> }/>
 			   <Route path = '/profile' render={() => <Profile store={props.store} />} />
-			   <Route path = '/news' render ={() => <News  news={props.data.sidebar} dispatch={props.dispatch}/> } />
-			   <Route path='/music' render = {() => <Music  list={props.data.musicList} dispatch={props.dispatch}/>} />
-			   <Route path='/settings' render = {() => <Settings sett={props.data.settingParam} />} />
+			   <Route path = '/news' render ={() => <NewsContainer  store={props.store} /> } />
+			   <Route path='/music' render = {() => <MusicContainer store={props.store} />} />
+			   <Route path='/settings' render = {() => <SettingsContainer store={props.store} />} />
 		 </div>
 		 <Footer />		   
 	 </div>

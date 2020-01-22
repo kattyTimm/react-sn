@@ -74,6 +74,7 @@ import {musicReducer} from './musicReducer';
 				 this._state.profile = profileReducer(this._state.profile, action);
 				 this._state.dialogs = dialogsReducer(this._state.dialogs, action);
 				 this._state.musicList = musicReducer(this._state.musicList, action);
+				 this._state.sidebar = 
 				 this._callSubscriber();
 
 				 if(action.type === 'ADD-HEADLINE'){

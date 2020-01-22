@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post'
-import {addPostActionCreator, addNewPostActionCreator} from '../../../ProfileReducer';
+//import {addPostActionCreator, addNewPostActionCreator} from '../../../ProfileReducer';
 
 const MyPosts = (props) => {
      
