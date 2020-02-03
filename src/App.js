@@ -7,7 +7,7 @@ import Footer from './components/Footer/Footer';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import NewsContainer from './components/News/NewsContainer';
 import MusicContainer from './components/Music/MusicContainer';
-import SettingsContainer from './components/Settings/SettingsContainer';
+import UsersContainer from './components/Users/UsersContainer';
 import {BrowserRouter, Route} from 'react-router-dom';
 
 const App = (props) => {
@@ -21,7 +21,7 @@ const App = (props) => {
 			   <Route path = '/profile' render={() => <Profile store={props.store} />} />
 			   <Route path = '/news' render ={() => <NewsContainer  store={props.store} /> } />
 			   <Route path='/music' render = {() => <MusicContainer store={props.store} />} />
-			   <Route path='/settings' render = {() => <SettingsContainer store={props.store} />} />
+			   <Route path='/users' render = {() => <UsersContainer store={props.store} />} />
 		 </div>
 		 <Footer />		   
 	 </div>

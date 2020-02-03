@@ -7,7 +7,7 @@ const News = (props) => {
 	let ref = React.createRef();
 
 	let addingPost = () => {
-		let text = ref.current.value;
+		console.log(props)
 		props.addOnClickNews();
 	}
 	

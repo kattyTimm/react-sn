@@ -15,14 +15,14 @@ let initialState = {
 export const musicReducer = (state = initialState, action) => {	
         
   switch(action.type){
-  	case SEARCH:
-  		           state.newVal = action.value;
-				 	return state;
+  	case SEARCH:{
+          return {...state, newVal: action.newVal};
+  	}
 
-	case FIND_SONG:
-		state.music.push({track: state.newVal});
-		state.newVal ='';	
-		return state;	
+	case FIND_SONG:{
+            return {...state, music: [...state.music, {track: state.newVal}], newVal: ''};
+	} 
+	
 	default: 
 	    return state;		 	
   	
