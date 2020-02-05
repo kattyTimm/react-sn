@@ -14,7 +14,7 @@ let mapDispatchToProps = (dispatch) => {
                  follow: (id) => { dispatch(followAC(id))},
                  unfollow: (id)=> { dispatch(unfollowAC(id))},
                  setUsers: (users) => {dispatch(setUsersAC(users))}
-                } 
+                }
 };
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
