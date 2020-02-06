@@ -3,13 +3,10 @@ import s from './Users.module.css'; /*elem.location.city}, {elem.location.countr
 import * as axios from 'axios';
 
 class Users extends React.Component{
-  constructor(){
-    super();
 
-             axios.get('https://social-network.samuraijs.com/api/1.0/users')
-             .then(resp => this.props.setUsers(resp.data.items));
-
-  //    <button onClick={this.getUsers}>get Users</button>
+componentDidMount(){
+  axios.get('https://social-network.samuraijs.com/api/1.0/users')
+  .then(resp => this.props.setUsers(resp.data.items));
 }
 
   render(){
