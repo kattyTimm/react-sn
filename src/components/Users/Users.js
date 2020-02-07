@@ -5,13 +5,50 @@ import * as axios from 'axios';
 class Users extends React.Component{
 
 componentDidMount(){
-  axios.get('https://social-network.samuraijs.com/api/1.0/users')
-  .then(resp => this.props.setUsers(resp.data.items));
+  axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+  .then(resp => {
+    this.props.setUsers(resp.data.items)
+    /*this.props.totalUsrsCount(resp.data.totalCount);*/
+  });
+}
+
+onPageChechged = (numPage) => { // стрелочная функция чтобы  сохранить контекст вызова
+  this.props.setCurrentPage(numPage);
+
+  axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numPage}&count=${this.props.pageSize}`)
+  .then(resp => {
+    this.props.setUsers(resp.data.items);
+  /*  this.props.totalUsrsCount(resp.data.totalCount);*/
+  });
 }
 
   render(){
-    return  <div>
 
+    let pagesCount = Math.ceil(this.props.totalUsrsCount / this.props.pageSize);
+
+    let pages = [];
+    for (let i = 0; i < pagesCount; i++) {
+        pages.push(i+1);
+    }
+
+let pagesPagination = pages.map(num => {
+   return <span className={this.props.currentPage === num ? s.selectedPage : ''} onClick={(e) => {this.onPageChechged(num)}} key={num}>
+                 {num}
+           </span>
+});
+
+  /*
+
+  <span className={s.selectedPage}>2</span>
+  <span className>3</span>
+  <span className>4</span>
+  <span className>5</span>
+  */
+
+    return  <div>
+             <div>
+                  {pagesPagination}
+             </div>
            {
                 this.props.users.map(obj => <div key={obj.id}>
                         <span>

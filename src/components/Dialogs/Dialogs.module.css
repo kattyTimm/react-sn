@@ -3,14 +3,14 @@
 	 grid-template-columns: 2fr 10fr; /*грид занимает две колонки, и одна занимает 2 фракции , а вторая 10 фракций*/
 	 background-color: rgba(76,103,133, 0.3);
  }
- 
+
  .dialogs_item{
 	 padding: 10px;
  }
  .dialog{}
- 
+
  .messages{
 	 padding: 10px;
  }
- 
+
  .message{}
