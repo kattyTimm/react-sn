@@ -2,7 +2,7 @@ import React from 'react'; // react импортируется из самого
 import './App.css';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
-import Profile from './components/Profile/Profile';
+import ProfileContainer from './components/Profile/ProfileContainer';
 import Footer from './components/Footer/Footer';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import NewsContainer from './components/News/NewsContainer';
@@ -13,19 +13,19 @@ import {BrowserRouter, Route} from 'react-router-dom';
 const App = (props) => {
   return (
   <BrowserRouter>
-	 <div className="wrapper"> 
+	 <div className="wrapper">
          <Header />
 		 <Navbar />
 		 <div className="content">
 			   <Route path = '/dialogs' render={() => <DialogsContainer store={props.store} /> }/>
-			   <Route path = '/profile' render={() => <Profile store={props.store} />} />
+			   <Route path = '/profile' render={() => <ProfileContainer store={props.store} />} />
 			   <Route path = '/news' render ={() => <NewsContainer  store={props.store} /> } />
 			   <Route path='/music' render = {() => <MusicContainer store={props.store} />} />
 			   <Route path='/users' render = {() => <UsersContainer store={props.store} />} />
 		 </div>
-		 <Footer />		   
+		 <Footer />
 	 </div>
-	</BrowserRouter> 
+	</BrowserRouter>
   );
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 import s from './Users.module.css'; /*elem.location.city}, {elem.location.country}*/
 
 let Users = (props) => {
@@ -25,7 +26,9 @@ return  <div>
          {
               props.users.map(obj => <div key={obj.id}>
                       <span>
-                         <img src={obj.photos.small !== null ? obj.photos.small : "https://avatarko.ru/img/kartinka/2/Gubka_Bob.jpg"} />
+                         <NavLink to={'/profile/' + obj.id}>
+                             <img src={obj.photos.small !== null ? obj.photos.small : "https://avatarko.ru/img/kartinka/2/Gubka_Bob.jpg"} />
+                         </NavLink>
                       </span>
                       <span>
                       {   obj.followed
