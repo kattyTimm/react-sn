@@ -17,7 +17,6 @@ componentDidMount(){
 
     this.props.setUsers(resp.data.items)
     this.props.setTotalUsersCount(resp.data.totalCount);
-    console.log(resp.data.totalCount)
   });
 }
 
