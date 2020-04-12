@@ -17,7 +17,7 @@ let initialSate = {
   switch(action.type){
   	case SET_USER_DATA:{
             	return {...state, ...action.data, isAuth: true};
-            	// свойства которые сидят в action.data презатрут, то что лежит в state
+            	// свойства которые сидят в action.data перезатрут, то что лежит в state
   	}
 
 	default: 
