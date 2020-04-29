@@ -1,11 +1,10 @@
 import React from 'react';
-import Dialogs from './Dialogs';
-import s from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
-import DialogItem from './DialogItem/DialogItem';
-import Message from './Message/Message';
-import {addDialog, createDialog} from'../../dialogsReducer';
+import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
+
+import {addDialog, createDialog} from'../../dialogsReducer';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
+import Dialogs from './Dialogs';
 
 /*
 const DialogsContainer = (props) => {	
@@ -26,12 +25,15 @@ const DialogsContainer = (props) => {
 }
 */
 
-let mapStateToProps = (state)=> {
+
+let RedirectComponent = withAuthRedirect(Dialogs);
+
+let mapStateToProps = (state) => {
 	return {
         dialogs: state.dialogs
-       // dialogs: state.dialogs.areaVal
 	}
 };
+
 let mapDispatchToProps = (dispatch)=> {
 	return {
              upDateNewMessageBody: (text) => dispatch(createDialog(text)),
@@ -39,6 +41,8 @@ let mapDispatchToProps = (dispatch)=> {
 	}
 };
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(RedirectComponent);
+
+
 
 export default DialogsContainer;

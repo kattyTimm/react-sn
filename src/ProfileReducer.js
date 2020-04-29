@@ -1,4 +1,5 @@
 import React from 'react';
+import {profileApi} from './api/api';
 
 
 const ADD_POST =  'ADD-POST';
@@ -11,7 +12,8 @@ let initialSate = {
 				   {id: 2, message: 'post 2', likesCount: 20}
 			   ],
   newValue: '',
-	profile: null
+	profile: null,
+	
 }
 
 export const profileReducer = (state = initialSate, action) => {
@@ -36,5 +38,14 @@ export const profileReducer = (state = initialSate, action) => {
 }
 
 export const addPostActionCreator = () => ({type: ADD_POST});
-export const setProfile = (profile) => ({type: SET_PROFILE, profile:profile});
 export const addNewPostActionCreator = (val) => ({type: ADD_NEW_POST, newPost: val});
+
+const setProfile = (profile) => ({type: SET_PROFILE, profile:profile});
+
+export const getProfileThunk = (id) => {
+	return (dispatch) => {
+		 profileApi.getProfile(id).then(resp => {		
+			dispatch(setProfile(resp.data));
+		});
+	}
+}

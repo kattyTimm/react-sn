@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {authApi} from './api/api';
 
 const SET_USER_DATA =  'SET-USER-DATA'; // установливает данные пользователя
 
@@ -26,6 +26,23 @@ let initialSate = {
   }
 };
 
-export const setAuthUserData = (id, email, login) => ({type: SET_USER_DATA, data: {id, email, login}});
+const setAuthUserData = (id, email, login) => ({type: SET_USER_DATA, data: {id, email, login}});
+
+export const getAuthThunk = () => {
+       return (dispatch) => {
+	       	  authApi.getAuth() // возвращает промис
+	       	  .then(resp => {
+                    console.log(resp) 
+
+		              if(resp.data.resultCode == 0){
+			            	// деструктуризация : 
+			            	// если мы залогинины, то засовываем в наш стэйт {id, email, login} и меняем isAuth на true
+			            	let {id, email, login} = resp.data.data;
+			            	dispatch(setAuthUserData(id, email, login)); // axios в data упаковывет респонс
+	       	           }
+		        });
+
+        }
+}
 
 export default AuthReducer;

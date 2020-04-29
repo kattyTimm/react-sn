@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC, toggleFollowingProgressAC} 
-from '../../UsersReducer';
+import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC, toggleFollowingProgressAC, 
+         getUsersThunkCreateor, unfollowThunk, followThunk} from '../../UsersReducer';
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
+import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 import * as axios from 'axios';
 import s from './Users.module.css';    /*  {this.props.isFetching ? <img src={preloader}/> : null}*/
 
@@ -12,6 +13,9 @@ import s from './Users.module.css';    /*  {this.props.isFetching ? <img src={pr
 class UsersContainer extends React.Component{
 
 componentDidMount(){
+   this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
+
+  /*
    this.props.toggleFetching(true); // пока ждем ответ isFetching тру
 
    userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(resp => {
@@ -20,10 +24,14 @@ componentDidMount(){
       this.props.setUsers(resp.items)
       this.props.setTotalUsersCount(resp.totalCount);
     });
+    */
 }
 
 onPageChechged = (numPage) => { // стрелочная функция чтобы  сохранить контекст вызова
-	this.props.toggleFetching(true); // пока ждем ответ isFetching тру
+
+this.props.getUsersThunk(numPage, this.props.pageSize);
+
+/*	this.props.toggleFetching(true); // пока ждем ответ isFetching тру
   this.props.setCurrentPage(numPage);
 
   userAPI.getUsers(numPage, this.props.pageSize)
@@ -32,6 +40,7 @@ onPageChechged = (numPage) => { // стрелочная функция чтоб�
 
       this.props.setUsers(resp.items);
     });
+    */
 }
 
   render(){
@@ -42,7 +51,7 @@ onPageChechged = (numPage) => { // стрелочная функция чтоб�
                     pageSize={this.props.pageSize} currentPage={this.props.currentPage}
                     users={this.props.users} unfollow={this.props.unfollow} follow={this.props.follow}
                     isFetching={this.props.isFetching} followingInProgress={this.props.followingInProgress}
-                    toggleFollowingProgress={this.props.toggleFollowingProgress}
+                   
                    />
             </>
   }
@@ -75,16 +84,21 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
 
 // все эти пропсы для UsersContainer !!!, connect самих в нее засунет:
 
-export default connect(mapStateToProps, { // это функции для контейнерной компоненты
-        follow: followAC,
-        unfollow: unfollowAC,
-        setUsers: setUsersAC,
+export default withAuthRedirect(connect(mapStateToProps, { 
+  // это функции для контейнерной компоненты UsersContainer
+      //  follow: followAC,
+      //  unfollow: unfollowAC,
+    //    setUsers: setUsersAC,
         setCurrentPage: setCurrentPageAC,
-        setTotalUsersCount: setTotalUsersCountAC,
-        toggleFetching : setIsFetchingAC,
-       // FollowingProgress: toggleFollowingProgressAC,
-        toggleFollowingProgress: toggleFollowingProgressAC
-       })(UsersContainer);
+        //setTotalUsersCount: setTotalUsersCountAC,
+       // toggleFetching : setIsFetchingAC,
+       // toggleFollowingProgress: toggleFollowingProgressAC, 
+        getUsersThunk: getUsersThunkCreateor, // getUsersThunkCreateor придет из UsersReducer и в UsersContainer уже попадет под именем getUsersThunk
+        unfollow: unfollowThunk,
+        follow: followThunk,
+       })(UsersContainer));
 
 // connect автоматически создает колбэк функцию
 // UsersContainer автоматически оборачивается connect, т соответсвенно connect передает ей параметры
+// setUsers, setTotalUsersCount, toggleFetching теперь в getUsersThunkCreateor и здесь больше не нужны
+   //  follow: followAC,  unfollow: unfollowAC, setUsers: setUsersAC теперь в unfollowThunk и в followThunk и здесь больше не нужны

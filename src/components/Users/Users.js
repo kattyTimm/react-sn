@@ -1,13 +1,10 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import s from './Users.module.css'; /*elem.location.city}, {elem.location.country}*/
-import {unfollow} from '../../api/api.js'; 
- import {follow} from '../../api/api.js'; 
+import {userAPI} from '../../api/api.js';
 // import * as axios from 'axios';
 
 let Users = (props) => {
-	console.log(props)
-
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
   let pages = [];
@@ -37,38 +34,30 @@ return  <div>
                       <span>
                       {   obj.followed
                         ?  <button disabled={props.followingInProgress.some(id => id == obj.id)} onClick={() => {    // followingInProgress - это просто свойство из initialSate из редъюсера                   	
-                        	props.toggleFollowingProgress(true, obj.id);
-/*
-                        	      axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${obj.id}`, {
-                        	      	    withCredentials: true,
-                        	      	    headers: {
-                        	      	    	'API-KEY' : '43040dd6-0e63-4499-9314-9afff1dbb86e'
-                        	      	    }
+                        	props.unfollow(obj.id);
 
-                        	      	})
-*/
-                        	      unfollow.delUser(obj.id)
+                        	   /*   userAPI.unfollow(obj.id)
 									  .then(data => {
 									  	if(data.resultCode == 0){
 									         props.unfollow(obj.id);
 									      }
 									      props.toggleFollowingProgress(false, obj.id); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
 									                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
-									  });
+									  });*/
                         }
 
                         }>UnFollow</button>
 
                         :  <button disabled={props.followingInProgress.some(id => id == obj.id)} onClick={() => {
-                        	props.toggleFollowingProgress(true, obj.id);
+                        	props.follow(obj.id);
 
-                                  follow.followUser(obj.id).then(data => {
+                              /*    userAPI.follow(obj.id).then(data => {
 									  	  if(data.resultCode == 0){
 									         props.follow(obj.id);
 									      }
 									      props.toggleFollowingProgress(false, obj.id);
 
-									  });
+									  }); */
 									}
                         }>Follow</button>
                       }

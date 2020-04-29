@@ -1,4 +1,5 @@
 import React from 'react';
+
 import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
 import DialogItem from './DialogItem/DialogItem';
@@ -25,16 +26,18 @@ const Dialogs = (props) => {
     	//props.dispatch(createDialog(text));
     }
 
+  //  if(!props.isAuth) return <Redirect to={"/login"} />;
+     
 	return (
-<div className={s.dialogs}>
+         <div className={s.dialogs}>
 	     
-		 <div className={s.dialogs_item}>					  
-			   {dialogsItems}
-		 </div>
-		 
-		 <div className={s.messages}> 
-			  {messages}
-		 </div>
+			 <div className={s.dialogs_item}>					  
+				   {dialogsItems}
+			 </div>
+			 
+			 <div className={s.messages}> 
+				  {messages}
+			 </div>
 	     <div>
 		        <textarea ref={refElem} value={props.dialogs.areaVal} onChange={changeHandler} />
 				<button onClick={clickHandler}>send message</button>

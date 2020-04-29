@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import Footer from './components/Footer/Footer';
+import Login from './components/Login/Login';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import NewsContainer from './components/News/NewsContainer';
 import MusicContainer from './components/Music/MusicContainer';
@@ -25,6 +26,7 @@ const App = () => { // props
 			   <Route path = '/news' render ={() => <NewsContainer  /> } />
 			   <Route path='/music' render = {() => <MusicContainer />} />
 			   <Route path='/users' render = {() => <UsersContainer />} /> 
+			   <Route path='/login' render = {() => <Login />} /> 
 		 </div>
 		 <Footer />
 	 </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import {userAPI} from './api/api';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -68,9 +69,9 @@ export const UsersReducer = (state = initialSate, action) => {
 
 
 
-export const followAC = (id) => ({type: FOLLOW, id});
+export const followSuccess = (id) => ({type: FOLLOW, id});
 
-export const unfollowAC = (id) => ({type: UNFOLLOW, id});
+export const unfollowSuccess = (id) => ({type: UNFOLLOW, id});
 
 export const setUsersAC = (users) => ({type: SET_USERS, users});
 
@@ -81,3 +82,54 @@ export const setTotalUsersCountAC = (totalUsersCount) => ({type: SET_TOTAL_USERS
 export const setIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching: isFetching});
 
 export const toggleFollowingProgressAC = (progress, id) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: progress, id});
+
+
+export const getUsersThunkCreateor = (currentPage, pageSize) => {
+	return (dispatch) => {
+			   dispatch(setIsFetchingAC(true)); // пока ждем ответ isFetching тру
+
+		       userAPI.getUsers(currentPage, pageSize).then(resp => {
+
+		       dispatch(setIsFetchingAC(false)); // когдв ответ получен isFetching false
+		       dispatch(setUsersAC(resp.items));
+		       dispatch(setTotalUsersCountAC(resp.totalCount));
+		    });
+	}
+}
+
+export const followThunk = (id) => {
+	return (dispatch) => {
+             	dispatch(toggleFollowingProgressAC(true, id));
+
+                                  userAPI.follow(id).then(data => {
+									  	  if(data.resultCode == 0){
+									         dispatch(followSuccess(id));
+									      }
+									      dispatch(toggleFollowingProgressAC(false, id));
+
+									  });
+	}
+}
+
+export const unfollowThunk = (id) => {
+	return (dispatch) => {
+             		dispatch(toggleFollowingProgressAC(true, id));
+/*
+                        	      axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${obj.id}`, {
+                        	      	    withCredentials: true,
+                        	      	    headers: {
+                        	      	    	'API-KEY' : '43040dd6-0e63-4499-9314-9afff1dbb86e'
+                        	      	    }
+
+                        	      	})
+*/
+                        	      userAPI.unfollow(id)
+									  .then(data => {
+									  	if(data.resultCode == 0){
+									         dispatch(unfollowSuccess(id));
+									      }
+									      dispatch(toggleFollowingProgressAC(false, id)); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
+									                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
+									  });
+	}
+}
