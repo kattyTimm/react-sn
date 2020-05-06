@@ -1,13 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, setTotalUsersCountAC, setIsFetchingAC, toggleFollowingProgressAC, 
-         getUsersThunkCreateor, unfollowThunk, followThunk} from '../../UsersReducer';
+import {compose} from 'redux';
+
+import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, 
+         setTotalUsersCountAC, setIsFetchingAC, 
+         toggleFollowingProgressAC,  getUsersThunkCreateor,
+          unfollowThunk, followThunk} from '../../UsersReducer';
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
-import * as axios from 'axios';
-import s from './Users.module.css';    /*  {this.props.isFetching ? <img src={preloader}/> : null}*/
 
 
 class UsersContainer extends React.Component{
@@ -83,22 +85,15 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
 
 
 // все эти пропсы для UsersContainer !!!, connect самих в нее засунет:
+// connect автоматически создает колбэк функцию
+// UsersContainer автоматически оборачивается connect, и соответсвенно connect передает ей параметры
 
-export default withAuthRedirect(connect(mapStateToProps, { 
-  // это функции для контейнерной компоненты UsersContainer
-      //  follow: followAC,
-      //  unfollow: unfollowAC,
-    //    setUsers: setUsersAC,
+export default compose(
+          withAuthRedirect,
+          connect(mapStateToProps, { 
         setCurrentPage: setCurrentPageAC,
-        //setTotalUsersCount: setTotalUsersCountAC,
-       // toggleFetching : setIsFetchingAC,
-       // toggleFollowingProgress: toggleFollowingProgressAC, 
         getUsersThunk: getUsersThunkCreateor, // getUsersThunkCreateor придет из UsersReducer и в UsersContainer уже попадет под именем getUsersThunk
         unfollow: unfollowThunk,
-        follow: followThunk,
-       })(UsersContainer));
+        follow: followThunk})
+          )(UsersContainer)
 
-// connect автоматически создает колбэк функцию
-// UsersContainer автоматически оборачивается connect, т соответсвенно connect передает ей параметры
-// setUsers, setTotalUsersCount, toggleFetching теперь в getUsersThunkCreateor и здесь больше не нужны
-   //  follow: followAC,  unfollow: unfollowAC, setUsers: setUsersAC теперь в unfollowThunk и в followThunk и здесь больше не нужны

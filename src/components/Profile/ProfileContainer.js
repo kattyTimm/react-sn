@@ -2,6 +2,7 @@ import React from 'react';
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import {compose} from 'redux';
 
 import classes from './Profile.module.css';
 import Profile from './Profile'; 
@@ -17,19 +18,8 @@ class ProfileContainer extends React.Component {
         if(!userId) userId = 2;
 
         this.props.getProfileThunk(userId);
-
-/*
-        profileApi.getProfile(userId).then(resp => {
-			this.props.setProfile(resp.data)
-		});
-
-		axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId)
-		.then(resp => {
-			this.props.setProfile(resp.data)
-		});
-*/		
+	
 	}
-
 
 	   render(){	   	     
 				return (
@@ -38,16 +28,16 @@ class ProfileContainer extends React.Component {
 	}
 }
 
-let RedirectComponent = withAuthRedirect(ProfileContainer);
 
 let mapStateToProps = (state) => ({
 		profile: state.profile.profile,	 
 });
 
- let UrlDataContainerComponent = withRouter(RedirectComponent);
-//const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
-
-export default connect(mapStateToProps, {getProfileThunk})(UrlDataContainerComponent);
-
+export default compose(
+ 	connect(mapStateToProps, {getProfileThunk}),
+ 	 withRouter,
+     withAuthRedirect,
+ 	)(ProfileContainer);
+ 	
 //  connect и withRouter по факту возвращают новые компоненты. connect  берет данные из стора. 
 // withRouter возмет данные из урла и закинет в компенету Profile
