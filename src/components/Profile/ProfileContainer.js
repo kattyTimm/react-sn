@@ -8,22 +8,22 @@ import classes from './Profile.module.css';
 import Profile from './Profile'; 
 import {setProfile} from '../../ProfileReducer';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
-import {getProfileThunk} from '../../ProfileReducer';
+import {getProfileThunk, updateStatusThunk, setStatusThunk} from '../../ProfileReducer';
 
 class ProfileContainer extends React.Component {
          
 	componentDidMount(){
-
         let userId = this.props.match.params.userId;
         if(!userId) userId = 2;
 
         this.props.getProfileThunk(userId);
-	
+        this.props.setStatusThunk(userId);		
 	}
 
 	   render(){	   	     
 				return (
-				        <Profile {...this.props}  profile={this.props.profile} /> 
+				        <Profile {...this.props}  profile={this.props.profile}
+				         status={this.props.status} updateStatus={this.props.updateStatusThunk}/> 
 					)
 	}
 }
@@ -31,12 +31,13 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
 		profile: state.profile.profile,	 
+		status: state.profile.status
 });
 
 export default compose(
- 	connect(mapStateToProps, {getProfileThunk}),
+ 	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk}),
  	 withRouter,
-     withAuthRedirect,
+    // withAuthRedirect,
  	)(ProfileContainer);
  	
 //  connect и withRouter по факту возвращают новые компоненты. connect  берет данные из стора. 

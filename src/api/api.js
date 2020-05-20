@@ -44,6 +44,19 @@ export const profileApi = {
 
 		return instance.get(`profile/${id}`)
 		       // .then(resp => resp.data);
+	},
+	getStatus: function(id){
+		return instance.get(`profile/status/${id}`);
+	},
+	updateStatus: function(status){
+		return instance.put(`profile/status`, {status: status});
+	}
+}
+
+
+const double = {
+	profile(param){
+		return profileApi.getProfile(param);
 	}
 }
 
