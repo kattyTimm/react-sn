@@ -30,7 +30,17 @@ class ProfileStatus extends React.Component {
 		this.setState({status: ev.currentTarget.value});
 	}
 
+    /*componentDidUpdate вызывается только для обновленных свойств, первый раз он не вызывается*/
+	componentDidUpdate(prevProps, prevState){
+		//debugger;
+		if(prevProps.status !== this.props.status){
+           this.setState({status: this.props.status}); 
+		  
+	    }
+	}
+
 	render(){
+		
 	       return( 
 				<div>
 				{this.state.editMode ? 
