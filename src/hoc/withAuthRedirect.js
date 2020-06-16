@@ -8,7 +8,7 @@ let mapStateToPropsForRedirect = (state) => {
 	}
 };
 
-export const withAuthRedirect = (Component) => {
+export const WithAuthRedirect = (Component) => {
 
 		class AuthRedirectComponent extends React.Component{
 			render(){

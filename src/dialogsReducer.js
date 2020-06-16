@@ -1,7 +1,6 @@
 //import React from 'react';
 //import store from './state';  
 
-const CREATE_DIALOG = 'CREATE-DIALOG';
 const ADD_DIALOG = 'ADD-DIALOG';
 
 let initialState = {
@@ -16,15 +15,11 @@ let initialState = {
 			{id: 2, message: 'How are you?'},
 			{id: 3, message: 'Yo'},
 			{id: 4, message: 'zopa'}
-		],
-		areaVal: ''
+		]
 };
 
 export const dialogsReducer = (state = initialState, action) => {	
 	switch(action.type){
-		case CREATE_DIALOG:{
-			return {...state, areaVal: action.newDialog};
-		}
 			
 		case ADD_DIALOG:{         
             /*
@@ -32,7 +27,8 @@ export const dialogsReducer = (state = initialState, action) => {
             stateCopy.messagesData.push({id: 5, message: state.areaVal});
             stateCopy.areaVal = '';
             */
-			return {...state, messagesData: [...state.messagesData, {id: 5, message: state.areaVal}], areaVal: ''};
+			return {...state, messagesData: [...state.messagesData, {id: 5, message: action.addNewMessage}]};
+			     //  {...state, messagesData: [...state.messagesData, {id: 5, message: state.areaVal}], areaVal: ''};
 		}
 			
 		default:
@@ -42,8 +38,5 @@ export const dialogsReducer = (state = initialState, action) => {
     
 }
 
-
-export const createDialog = (text) => ({type: CREATE_DIALOG, newDialog: text});
-
-export const addDialog = () => ({type: ADD_DIALOG});
+export const addDialog = (text) => ({type: ADD_DIALOG, addNewMessage: text});
 

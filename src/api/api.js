@@ -34,14 +34,19 @@ export const userAPI = {
 
 export const authApi ={	
 	getAuth(){
-		return instance.get(`auth/me`)
+		return instance.get(`auth/me`);
 	   //  .then(resp=> resp.data);
+	},
+	login: function(email, password, rememberMe = false){
+         return instance.post(`auth/login`, {email, password, rememberMe});   
+	}, 
+	logout: function(){
+           return instance.delete(`auth/login`);
 	}
 }	
 	
 export const profileApi = {
 	getProfile(id){
-
 		return instance.get(`profile/${id}`)
 		       // .then(resp => resp.data);
 	},
@@ -53,6 +58,12 @@ export const profileApi = {
 	}
 }
 
+export const loginApi = {
+	getLogin(){
+		return instance.post(`auth/login`)
+		.then(resp => resp.data);
+	}
+}
 
 const double = {
 	profile(param){

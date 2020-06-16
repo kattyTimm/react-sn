@@ -1,4 +1,6 @@
 import React from 'react';
+import {Field, reduxForm} from 'redux-form';
+
 
 import s from './Dialogs.module.css';
 import {NavLink} from "react-router-dom";
@@ -6,6 +8,19 @@ import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import {addDialog, createDialog} from'../../dialogsReducer';
 
+import {Textarea} from '../Common/FormsControls/FormControls';
+import {requiredFields, maxLengthCreators} from '../../utilities/validators/validators';
+
+const maxLength100 = maxLengthCreators(100);
+
+const MessageForm = (props) => {
+      return <form onSubmit={props.handleSubmit}>
+                   <div> <Field name={"message"} component={Textarea} value={props.value} validate={[requiredFields, maxLength100]}/></div>
+				    <button>send message</button>
+             </form>
+}
+
+const MessageReduxForm = reduxForm({form: 'dialogs'})(MessageForm);
 
 const Dialogs = (props) => {	
 	
@@ -13,20 +28,13 @@ const Dialogs = (props) => {
 
 	let dialogsItems = state.dialogsData.map((item, i) => <DialogItem key={i} name={item.name} id={item.id} />);
 	let messages = state.messagesData.map((item, i) => <Message key={i} message={item.message} id={item.id} />);
-	
-	let refElem = React.createRef();
-	
-	let clickHandler = () => {
-	   props.addMessage();
-	}
-	
-    let changeHandler = (e) => {
-    	let text = e.target.value; 
-    	props.upDateNewMessageBody(text);
-    	//props.dispatch(createDialog(text));
-    }
 
   //  if(!props.isAuth) return <Redirect to={"/login"} />;
+
+  const addNewMessage = (data) => {
+  	console.log(data);
+  	props.addMessage(data.message);
+  }
      
 	return (
          <div className={s.dialogs}>
@@ -39,8 +47,7 @@ const Dialogs = (props) => {
 				  {messages}
 			 </div>
 	     <div>
-		        <textarea ref={refElem} value={props.dialogs.areaVal} onChange={changeHandler} />
-				<button onClick={clickHandler}>send message</button>
+		       <MessageReduxForm onSubmit={addNewMessage} value={props.dialogs.areaVal}/> 
 		 </div> 
 	  </div>
 	)

@@ -6,8 +6,8 @@ const Header = (props) => {
 	return <header className="Header">
         	 <img src="https://pbs.twimg.com/profile_banners/49559323/1525870029/1500x500" /> 
         	 <div className="loginBlock">
-        	       {props.isAuth ? 
-        	       	props.login 
+        	       {props.isAuth 
+        	       	? <div> {props.login} <button onClick={props.logoutThunk}> Log out </button> </div>
                     : <NavLink to='/login'>login </NavLink>
         	       }
         	 </div>

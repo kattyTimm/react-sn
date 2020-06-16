@@ -3,8 +3,8 @@ import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-import {addDialog, createDialog} from'../../dialogsReducer';
-import {withAuthRedirect} from '../../hoc/withAuthRedirect';
+import {addDialog} from'../../dialogsReducer';
+import {WithAuthRedirect} from '../../hoc/WithAuthRedirect';
 import Dialogs from './Dialogs';
 
 /*
@@ -38,8 +38,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch)=> {
 	return {
-             upDateNewMessageBody: (text) => dispatch(createDialog(text)),
-             addMessage: () => dispatch(addDialog())
+             addMessage: (text) => dispatch(addDialog(text))
 	}
 };
 
@@ -49,5 +48,5 @@ let mapDispatchToProps = (dispatch)=> {
 
 export default compose(
  	connect(mapStateToProps, mapDispatchToProps),
-     withAuthRedirect,
+     WithAuthRedirect,
  	)(Dialogs);;

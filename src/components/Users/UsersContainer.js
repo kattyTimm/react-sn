@@ -9,7 +9,7 @@ import {followAC, unfollowAC, setUsersAC, setCurrentPageAC,
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
-import {withAuthRedirect} from '../../hoc/withAuthRedirect';
+import {WithAuthRedirect} from '../../hoc/WithAuthRedirect';
 
 
 class UsersContainer extends React.Component{
@@ -89,7 +89,7 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
 // UsersContainer автоматически оборачивается connect, и соответсвенно connect передает ей параметры
 
 export default compose(
-          withAuthRedirect,
+          WithAuthRedirect,
           connect(mapStateToProps, { 
         setCurrentPage: setCurrentPageAC,
         getUsersThunk: getUsersThunkCreateor, // getUsersThunkCreateor придет из UsersReducer и в UsersContainer уже попадет под именем getUsersThunk
