@@ -13,8 +13,9 @@ import {getProfileThunk, updateStatusThunk, setStatusThunk} from '../../ProfileR
 class ProfileContainer extends React.Component {
          
 	componentDidMount(){
-        let userId = this.props.match.params.userId;
-        if(!userId) userId = 6858;
+		
+        let userId = this.props.match.params.userId;  // this.props.match.params.userId берет айди пользователя из урла
+        if(!userId) userId = this.props.authorizedId;
 
         this.props.getProfileThunk(userId);
         this.props.setStatusThunk(userId);		
@@ -32,13 +33,15 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => ({
 		profile: state.profile.profile,	 
-		status: state.profile.status
+		status: state.profile.status,
+		authorizedId: state.auth.id,
+		isAuth: state.auth.isAuth,
 });
 
 export default compose(
  	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk}),
  	 withRouter,
-     WithAuthRedirect,
+  //   WithAuthRedirect,
  	)(ProfileContainer);
  	
 //  connect и withRouter по факту возвращают новые компоненты. connect  берет данные из стора. 

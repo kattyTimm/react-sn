@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {Redirect} from "react-router-dom";
 
 import {Input} from '../Common/FormsControls/FormControls';
+import s from '../Common/FormsControls/FormControls.module.css';
 import {requiredFields, maxLengthCreators} from '../../utilities/validators/validators';
 import {loginThunk} from '../../auth-reducer';
 
@@ -15,8 +16,12 @@ const LoginForm = (props) => {
                <form onSubmit={props.handleSubmit}>
                      <div><Field placeholder={"email"} component={Input} name={"email"} validate={[requiredFields, maxLengthLogin20]} /></div>
                      <div><Field placeholder={"password"} component={Input} name={"password"} type={"password"} validate={[requiredFields, maxLengthLogin20]} /></div>
-                     <div><Field type={"checkbox"} component={Input} name={"rememberMe"} validate={[requiredFields]} />remember me</div>
+                     <div><Field type={"checkbox"} component={Input} name={"rememberMe"}  />remember me</div>
                      <div>
+                     {props.error &&  <div className={s.formSumaryError}>
+                                         {props.error}
+                                     </div>               
+                      }             
                           <button>Login</button>        
                      </div>
                </form>

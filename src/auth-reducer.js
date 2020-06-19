@@ -1,4 +1,6 @@
 import React from 'react';
+import {stopSubmit} from 'redux-form'; // actionCreator от redux form
+
 import {authApi} from './api/api';
 
 const SET_USER_DATA =  'SET-USER-DATA'; // установливает данные пользователя
@@ -44,13 +46,20 @@ export const getAuthThunk = () => {
 }
 
 // сам loginThunk выступает в качетсве creator, сама санка  начинается с 
-export const loginThunk = (email, password, rememberMe) => dispatch => {
+export const loginThunk = (email, password, rememberMe = false) => dispatch => {
+
        authApi.login(email, password, rememberMe)
                .then(resp => { 
                        console.log(resp);
 
                        if(resp.data.resultCode == 0){
                           dispatch(getAuthThunk());   
+                      }else{
+                        let message = (resp.data.messages[0].length > 0) ? resp.data.messages[0] : 'Some error';
+                                                      //email: 'Incorrect email', password: 'Wrong pass, try again'                                                 
+                        dispatch(stopSubmit('login', {_error: message}));
+                                            // свойство _error позволяет получить общую ошибку всей формы, 
+                                            // чтобы не подсвечивать отдельные поля ввода
                       }
                   }
                 )
