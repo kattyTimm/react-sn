@@ -28,11 +28,9 @@ let initialSate = {
 
 const setAuthUserData = (id, email, login, isAuth) => ({type: SET_USER_DATA,  payload: {id, email, login, isAuth} });
 
-export const getAuthThunk = () => {
-       return (dispatch) => {
-	       	  authApi.getAuth() // возвращает промис
-	       	  .then(resp => {
-                   console.log(resp)
+export const getAuthThunk = () => dispatch => {
+       return authApi.getAuth() // возвращает промис
+	       	      .then(resp => {
 
 		              if(resp.data.resultCode == 0){
 			            	// деструктуризация : 
@@ -40,9 +38,8 @@ export const getAuthThunk = () => {
 			            	let {id, email, login} = resp.data.data;
 			            	dispatch(setAuthUserData(id, email, login, true)); // axios в data упаковывет респонс
 	       	           }
-		        });
+		           });
 
-        }
 }
 
 // сам loginThunk выступает в качетсве creator, сама санка  начинается с 

@@ -9,32 +9,55 @@ import NewsContainer from './components/News/NewsContainer';
 import MusicContainer from './components/Music/MusicContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {initializeApp} from './appReducer';
+import Preloader from './components/Common/Preloader/preloader';
+
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
 
 
 //  store={props.store}
-const App = () => { // props
-  return (
+class App extends React.Component { 
+  
+  componentDidMount(){		  
+         this.props.initializeApp();
+	 }
 
-	 <div className="wrapper">
-         <HeaderContainer />
-		 <Navbar />
-		 <div className="content">
-			   <Route path = '/dialogs' render={() => <DialogsContainer /> }/>
-			   <Route path = '/profile/:userId?' 
-			          render={() => <ProfileContainer />} />
-			   <Route path = '/news' render ={() => <NewsContainer  /> } />
-			   <Route path='/music' render = {() => <MusicContainer />} />
-			   <Route path='/users' render = {() => <UsersContainer />} /> 
-			   <Route path='/login' render = {() => <Login />} /> 
-		 </div>
-		 <Footer />
-	 </div>
+	  render(){
+        if(!this.props.initialazed) {return <Preloader />}
+        else{ 
+			  return (
 
-  );
+				 <div className="wrapper">
+			         <HeaderContainer />
+					 <Navbar />
+					 <div className="content">
+						   <Route path = '/dialogs' render={() => <DialogsContainer /> }/>
+						   <Route path = '/profile/:userId?' 
+						          render={() => <ProfileContainer />} />
+						   <Route path = '/news' render ={() => <NewsContainer  /> } />
+						   <Route path='/music' render = {() => <MusicContainer />} />
+						   <Route path='/users' render = {() => <UsersContainer />} /> 
+						   <Route path='/login' render = {() => <Login />} /> 
+					 </div>
+					 <Footer />
+				 </div>
+
+		   	  );
+		}
+    }
 }
 
-export default App;
+// mapStateToProps - это функция, принимающая state и возвращающая объект
+const mapStateToProps = (state) => ({initialazed: state.app.initialazed});
+
+export default compose(withRouter, 
+  connect (mapStateToProps, {initializeApp})
+)(App);
+
+// Из-за оборачивания в connect сбивается роутинг, поээтому нужен  withRouter. 
+// А compose используется чтобы избежать большую вложенность hoc в hoc и т.д.
 
 //state={props.state.profile} dispatch={props.dispatch}
 //<Dialogs dialogs={props.data.dialogs} dispatch={props.dispatch} /> }/>

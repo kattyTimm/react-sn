@@ -15,7 +15,13 @@ class ProfileContainer extends React.Component {
 	componentDidMount(){
 		
         let userId = this.props.match.params.userId;  // this.props.match.params.userId берет айди пользователя из урла
-        if(!userId) userId = this.props.authorizedId;
+        if(!userId){ 
+        	userId = this.props.authorizedId;
+            if(!userId) {
+            	this.props.history.push("/login")
+            }	 
+        }
+
 
         this.props.getProfileThunk(userId);
         this.props.setStatusThunk(userId);		

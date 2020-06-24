@@ -9,7 +9,7 @@ import {followAC, unfollowAC, setUsersAC, setCurrentPageAC,
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
-import {WithAuthRedirect} from '../../hoc/WithAuthRedirect';
+import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress} from './UsersSelect';
 
 
 class UsersContainer extends React.Component{
@@ -46,8 +46,9 @@ this.props.getUsersThunk(numPage, this.props.pageSize);
 }
 
   render(){
-    return  <>
-               {this.props.isFetching ? <Preloader /> : null}
+
+    return  (<div>
+              <div> {this.props.isFetching ? <Preloader /> : null} </div>
 
                <Users onPageChechged={this.onPageChechged} totalUsersCount={this.props.totalUsersCount}
                     pageSize={this.props.pageSize} currentPage={this.props.currentPage}
@@ -55,22 +56,37 @@ this.props.getUsersThunk(numPage, this.props.pageSize);
                     isFetching={this.props.isFetching} followingInProgress={this.props.followingInProgress}
                    
                    />
-            </>
+              </div>     
+            )
   }
 }
 
 
-
+/*
 let mapStateToProps = (state) => { // Это  пропсы для функциональной компоненты
   return  {
          users: state.settingParam.users,
          pageSize: state.settingParam.pageSize, // количество страниц
          totalUsersCount: state.settingParam.totalUsersCount, // общее количество пользователей
          currentPage: state.settingParam.currentPage,
-         isFetching: state.settingParam.isFetching,
+         isFetching: getIsFetching(state),
          followingInProgress: state.settingParam.followingInProgress
   }
 }
+
+*/
+
+let mapStateToProps = (state) => { // Это  пропсы для функциональной компоненты
+  return  {
+         users: getUsers(state),
+         pageSize: getPageSize(state), // количество страниц
+         totalUsersCount: getTotalUsersCount(state), // общее количество пользователей
+         currentPage: getCurrentPage(state),
+         isFetching: getIsFetching(state),
+         followingInProgress: getFollowingInProgress(state)
+  }
+}
+
 
 /*let mapDispatchToProps = (dispatch) => {
          return {
@@ -89,7 +105,7 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
 // UsersContainer автоматически оборачивается connect, и соответсвенно connect передает ей параметры
 
 export default compose(
-          WithAuthRedirect,
+        //  WithAuthRedirect,
           connect(mapStateToProps, { 
         setCurrentPage: setCurrentPageAC,
         getUsersThunk: getUsersThunkCreateor, // getUsersThunkCreateor придет из UsersReducer и в UsersContainer уже попадет под именем getUsersThunk
