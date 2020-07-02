@@ -9,41 +9,22 @@ import {followAC, unfollowAC, setUsersAC, setCurrentPageAC,
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
-import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress} from './UsersSelect';
+import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, 
+  getFollowingInProgress} from './users-selectors';
 
 
 class UsersContainer extends React.Component{
 
-componentDidMount(){
-   this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
+    componentDidMount(){
+    debugger;
+       this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
+    }
 
-  /*
-   this.props.toggleFetching(true); // пока ждем ответ isFetching тру
+    onPageChechged = (numPage) => { // стрелочная функция чтобы  сохранить контекст вызова
 
-   userAPI.getUsers(this.props.currentPage, this.props.pageSize).then(resp => {
-      this.props.toggleFetching(false); // когдв ответ получен isFetching false
+        this.props.getUsersThunk(numPage, this.props.pageSize);
 
-      this.props.setUsers(resp.items)
-      this.props.setTotalUsersCount(resp.totalCount);
-    });
-    */
-}
-
-onPageChechged = (numPage) => { // стрелочная функция чтобы  сохранить контекст вызова
-
-this.props.getUsersThunk(numPage, this.props.pageSize);
-
-/*	this.props.toggleFetching(true); // пока ждем ответ isFetching тру
-  this.props.setCurrentPage(numPage);
-
-  userAPI.getUsers(numPage, this.props.pageSize)
-    .then(resp => {
-     this.props.toggleFetching(false); // когдв ответ получен isFetching false
-
-      this.props.setUsers(resp.items);
-    });
-    */
-}
+    }
 
   render(){
 
@@ -69,14 +50,14 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
          pageSize: state.settingParam.pageSize, // количество страниц
          totalUsersCount: state.settingParam.totalUsersCount, // общее количество пользователей
          currentPage: state.settingParam.currentPage,
-         isFetching: getIsFetching(state),
+         isFetching:  state.settingParam.isFetching,
          followingInProgress: state.settingParam.followingInProgress
   }
 }
 
 */
 
-let mapStateToProps = (state) => { // Это  пропсы для функциональной компоненты
+let mapStateToProps = (state) => { 
   return  {
          users: getUsers(state),
          pageSize: getPageSize(state), // количество страниц
@@ -86,6 +67,8 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
          followingInProgress: getFollowingInProgress(state)
   }
 }
+
+
 
 
 /*let mapDispatchToProps = (dispatch) => {

@@ -84,11 +84,12 @@ export const setIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFet
 export const toggleFollowingProgressAC = (progress, id) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: progress, id});
 
 
-export const getUsersThunkCreateor = (currentPage, pageSize) => {
+export const getUsersThunkCreateor = (page, pageSize) => {
 	return (dispatch) => {
 			   dispatch(setIsFetchingAC(true)); // пока ждем ответ isFetching тру
+			   dispatch(setCurrentPageAC(page));
 
-		       userAPI.getUsers(currentPage, pageSize).then(resp => {
+		       userAPI.getUsers(page, pageSize).then(resp => {
 
 		       dispatch(setIsFetchingAC(false)); // когдв ответ получен isFetching false
 		       dispatch(setUsersAC(resp.items));
