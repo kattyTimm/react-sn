@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './ProfileInfo.module.css';
 import Preloader from '../../Common/Preloader/preloader';
 
-import ProfileStatus from './ProfileStatus';
+import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
 const ProfileInfo = (props) => {
 	// пока не пришли данные, показывается прелоадер
@@ -22,7 +22,7 @@ const ProfileInfo = (props) => {
                             <p>vkontacte: {props.profile.contacts.vk}</p>
 					  </div>
 					  <img src={props.profile.photos.large}  className={classes.mainPhoto}/>
-						<ProfileStatus updateStatus={props.updateStatus} status={props.status}/>
+						<ProfileStatusWithHooks updateStatus={props.updateStatus} status={props.status}/>
 				 </div>
 			</div>
 }

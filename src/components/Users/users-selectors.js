@@ -1,7 +1,27 @@
 import React from 'react';
+import { createSelector } from 'reselect'
 
-export const getUsers = (state) => { 
-	return state.settingParam.users
+const getUsersSelector = (state) => { 
+	return state.settingParam.users;
+};
+
+
+// state придет в getUsersSuperSelector из mapStateToProps из UsersContainer
+export const getUsers = createSelector(getUsersSelector, 
+    (users) => {  
+            return users.filter(u => true);
+});
+
+/*   Можно передать несколько зависимостей:
+
+export const getUsersSuperSelector = createSelector(getUsers, getIsFetching, (users, isFetching) => {
+    return users.filter(u => true);
+});
+  
+*/
+
+export const getIsFetching = (state) => {
+	return state.settingParam.isFetching
 };
 
 export const getPageSize = (state) => { 
@@ -16,9 +36,7 @@ export const getCurrentPage = (state) => {
 	return state.settingParam.currentPage
 };
 
-export const getIsFetching = (state) => {
-	return state.settingParam.isFetching
-	 };
+
 
 export const getFollowingInProgress = (state) => {
 	return state.settingParam.followingInProgress
