@@ -21,8 +21,8 @@ const ResultPostForm = reduxForm({
 })(PostForm);
 
 
-const MyPosts = (props) => {
-     
+const MyPosts = React.memo((props) => {
+     console.log('render');
 	let postsElement = props.posts.map( p => <Post message={p.message} id={p.id} likesCount={p.likesCount} />) 
 
 /*
@@ -47,7 +47,7 @@ const MyPosts = (props) => {
           	     <ResultPostForm  onSubmit={onSubmit} />
 			      {postsElement}	
 			</div>	
-	}
+	});
 
 export default MyPosts;
 
