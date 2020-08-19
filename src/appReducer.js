@@ -26,7 +26,8 @@ let initialSate = {
 const initialazedSuccess = () => ({type: INIALAZED_SUCCESS});
 
 export const initializeApp = () => dispatch => {
-      Promise.all([dispatch(getAuthThunk())]).then( () => dispatch(initialazedSuccess()));
+      let promise = dispatch(getAuthThunk());
+      Promise.all([promise]).then( () => dispatch(initialazedSuccess()));
 }
 
 
