@@ -54,11 +54,11 @@ export const UsersReducer = (state = initialSate, action) => {
 				return {...state, isFetching: action.isFetching}
 			};
 			case TOGGLE_IS_FOLLOWING_PROGRESS:{
-				return {...state, followingInProgress: action.isFetching  
+				return {...state, followingInProgress: action.isFetching
 
-					? [...state.followingInProgress, action.id] 
+					? [...state.followingInProgress, action.id]
 				    : [...state.followingInProgress.filter(id => id != action.id)]} // followingInProgress и будет переписываться вызовом toggleFollowingProgressAC
-			}; 
+			};
 
 		default:
 		return state;
@@ -84,37 +84,46 @@ export const setIsFetchingAC = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFet
 export const toggleFollowingProgressAC = (progress, id) => ({type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: progress, id});
 
 
-export const getUsersThunkCreateor = (page, pageSize) => {
-	return (dispatch) => {
+export const getUsersThunkCreateor = (page, pageSize) => async dispatch => {
 			   dispatch(setIsFetchingAC(true)); // пока ждем ответ isFetching тру
 			   dispatch(setCurrentPageAC(page));
 
-		       userAPI.getUsers(page, pageSize).then(resp => {
+		     let resp = await userAPI.getUsers(page, pageSize);
 
 		       dispatch(setIsFetchingAC(false)); // когдв ответ получен isFetching false
 		       dispatch(setUsersAC(resp.items));
 		       dispatch(setTotalUsersCountAC(resp.totalCount));
-		    });
 	}
+
+const followUnfollowFlow = async (dispatch, id, apiMethod, actionCreator) => {
+	   	dispatch(toggleFollowingProgressAC(true, id));
+			let data = await apiMethod(id);
+					 if(data.resultCode == 0){
+								dispatch(actionCreator(id));
+						 }
+		  dispatch(toggleFollowingProgressAC(false, id));
 }
 
-export const followThunk = (id) => {
-	return (dispatch) => {
-             	dispatch(toggleFollowingProgressAC(true, id));
+export const followThunk = (id) => async dispatch => {
+  //  	dispatch(toggleFollowingProgressAC(true, id));
+      let apiMethod = userAPI.follow.bind(userAPI);
+      let actionCreator = followSuccess;
 
-                                  userAPI.follow(id).then(data => {
-									  	  if(data.resultCode == 0){
-									         dispatch(followSuccess(id));
-									      }
-									      dispatch(toggleFollowingProgressAC(false, id));
-
-									  });
+			followUnfollowFlow(dispatch, id, apiMethod, actionCreator);
+/*      let data = await apiMethod(id);
+			  	  if(data.resultCode == 0){
+			           dispatch(actionCreator(id));
+			        }
+			dispatch(toggleFollowingProgressAC(false, id));
+			*/
 	}
-}
 
-export const unfollowThunk = (id) => {
-	return (dispatch) => {
-             		dispatch(toggleFollowingProgressAC(true, id));
+
+export const unfollowThunk = (id) => async dispatch => {
+  //  dispatch(toggleFollowingProgressAC(true, id));
+		let apiMethod = userAPI.unfollow.bind(userAPI);
+		let actionCreator = unfollowSuccess;
+		followUnfollowFlow(dispatch, id, apiMethod, actionCreator);
 /*
                         	      axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${obj.id}`, {
                         	      	    withCredentials: true,
@@ -123,14 +132,11 @@ export const unfollowThunk = (id) => {
                         	      	    }
 
                         	      	})
-*/
-                        	      userAPI.unfollow(id)
-									  .then(data => {
-									  	if(data.resultCode == 0){
-									         dispatch(unfollowSuccess(id));
-									      }
-									      dispatch(toggleFollowingProgressAC(false, id)); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
-									                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
-									  });
+
+     let data = await apiMethod(id);
+					  	if(data.resultCode == 0){
+					         dispatch(actionCreator(id));
+					    }
+			dispatch(toggleFollowingProgressAC(false, id)); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
+	*/				                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
 	}
-}

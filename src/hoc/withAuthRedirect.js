@@ -14,7 +14,7 @@ export const WithAuthRedirect = (Component) => {
 			render(){
 				if(!this.props.isAuth) return <Redirect to={"/login"} />
 
-			    return <Component {...this.props} /> 
+			    return <Component {...this.props} />
 		    }
 		}
 
@@ -22,4 +22,3 @@ export const WithAuthRedirect = (Component) => {
 
     return  ConnectRedirectComponent;
 }
-

@@ -14,7 +14,7 @@ let initialSate = {
 				   {id: 2, message: 'post 2', likesCount: 20}
 			   ],
   profile: null,
-  status: ''	
+  status: ''
 }
 
 export const profileReducer = (state = initialSate, action) => {
@@ -56,28 +56,30 @@ export const deletePost = (id) => ({type: DELETE_POST, id});
 const setProfile = (profile) => ({type: SET_PROFILE, profile:profile});
 const setStatus = (status) => ({type: SET_STATUS, status: status});
 
+export const getProfileThunk = (id) => async dispatch => {
+	 let resp = await	profileApi.getProfile(id);
+
+			dispatch(setProfile(resp.data));
+}
+/*
 export const getProfileThunk = (id) => {
 	return (dispatch) => {
-		 profileApi.getProfile(id).then(resp => {		
+		 profileApi.getProfile(id).then(resp => {
 			dispatch(setProfile(resp.data));
-		});		 
+		});
 	}
 }
-
-export const setStatusThunk = (id) => {
-	return(dispatch) => {
-           profileApi.getStatus(id).then(resp => {
+*/
+export const setStatusThunk = (id) =>  async dispatch => {
+          let resp = await profileApi.getStatus(id);
            	  dispatch(setStatus(resp.data));
-           });
 	}
-}
 
-export const updateStatusThunk = (str) => {
-	return(dispatch) => {
-           profileApi.updateStatus(str).then(resp => {
+
+export const updateStatusThunk = (str) => async dispatch => {
+        let resp = profileApi.updateStatus(str);
+
            	  if(resp.data.resultCode === 0){
            	     dispatch(setStatus(str));
            	  }
-           });
 	}
-}
