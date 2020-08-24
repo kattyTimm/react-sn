@@ -77,7 +77,7 @@ export const setStatusThunk = (id) =>  async dispatch => {
 
 
 export const updateStatusThunk = (str) => async dispatch => {
-        let resp = profileApi.updateStatus(str);
+        let resp = await profileApi.updateStatus(str);
 
            	  if(resp.data.resultCode === 0){
            	     dispatch(setStatus(str));

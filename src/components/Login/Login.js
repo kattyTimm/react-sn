@@ -3,23 +3,24 @@ import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import {Redirect} from "react-router-dom";
 
-import {Input} from '../Common/FormsControls/FormControls';
+import {Input, CreateField} from '../Common/FormsControls/FormControls';
 import s from '../Common/FormsControls/FormControls.module.css';
 import {requiredFields, maxLengthCreators} from '../../utilities/validators/validators';
 import {loginThunk} from '../../auth-reducer';
 
 const maxLengthLogin20 = maxLengthCreators(20);
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
   
     return (               
-               <form onSubmit={props.handleSubmit}>
-                     <div><Field placeholder={"email"} component={Input} name={"email"} validate={[requiredFields, maxLengthLogin20]} /></div>
-                     <div><Field placeholder={"password"} component={Input} name={"password"} type={"password"} validate={[requiredFields, maxLengthLogin20]} /></div>
-                     <div><Field type={"checkbox"} component={Input} name={"rememberMe"}  />remember me</div>
+               <form onSubmit={handleSubmit}>
+                    {CreateField ("email", Input, "email", [requiredFields, maxLengthLogin20])}
+                    {CreateField("password", Input, "password", [requiredFields, maxLengthLogin20], {type: "password"})}
+                    {CreateField(null, Input, "rememberMe", [], {type: "checkbox"}, "remember me")}  
+
                      <div>
-                     {props.error &&  <div className={s.formSumaryError}>
-                                         {props.error}
+                     {error &&  <div className={s.formSumaryError}>
+                                         {error}
                                      </div>               
                       }             
                           <button>Login</button>        
@@ -34,14 +35,15 @@ const LoginReduxForm = reduxForm({
     form: 'login'  // имя формы в state (state.form.post), уникальное имя формы
 })(LoginForm);
 
-const Login = (props) => {
+const Login = ({loginThunk, isAuth}) => {
  
       const onSubmit = (data) => {
          let {email, password, rememberMe} = data;
-         props.loginThunk(email, password, rememberMe);
+
+         loginThunk(email, password, rememberMe);
       }
   
-     if(props.isAuth) return <Redirect to={"/profile"} />
+     if(isAuth) return <Redirect to={"/profile"} />
 
 	return <div>
   			   <h1> Login </h1>

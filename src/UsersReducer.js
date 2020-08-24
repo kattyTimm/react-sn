@@ -1,5 +1,6 @@
 import React from 'react';
 import {userAPI} from './api/api';
+import {updateObjectInArr} from './utilities/objectObserver';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -23,20 +24,28 @@ export const UsersReducer = (state = initialSate, action) => {
 
 	switch(action.type){
 		case FOLLOW:
-          return {...state, users: state.users.map((obj) => {
-                 if(obj.id === action.id){
-	                return {...obj, followed: true};
-                 }
-                 return obj;
-            })};
+          return {
+          	...state, 
+          	       users: updateObjectInArr(state.users, action.id, 'id', {followed: true})};
+          	         /* state.users.map((obj) => {
+                      if(obj.id === action.id){
+	                       return {...obj, followed: true};
+                        }
+                     return obj;
+              }) 
+          	};*/
 
         case UNFOLLOW:
-        return {...state, users: state.users.map((obj) => {
+        return {
+        	...state, 
+        	    users: updateObjectInArr(state.users, action.id, 'id', {followed: false})
+        	  /*  state.users.map((obj) => {
         	if(obj.id === action.id){
         		return {...obj, followed: false};
         	}
         	return obj;
-        })};
+            }) */
+        };
 
       case SET_USERS: {
       	return {...state, users: action.users}; ///,
@@ -105,38 +114,15 @@ const followUnfollowFlow = async (dispatch, id, apiMethod, actionCreator) => {
 }
 
 export const followThunk = (id) => async dispatch => {
-  //  	dispatch(toggleFollowingProgressAC(true, id));
-      let apiMethod = userAPI.follow.bind(userAPI);
+      let apiMethod = await userAPI.follow.bind(userAPI);
       let actionCreator = followSuccess;
 
 			followUnfollowFlow(dispatch, id, apiMethod, actionCreator);
-/*      let data = await apiMethod(id);
-			  	  if(data.resultCode == 0){
-			           dispatch(actionCreator(id));
-			        }
-			dispatch(toggleFollowingProgressAC(false, id));
-			*/
 	}
 
 
 export const unfollowThunk = (id) => async dispatch => {
-  //  dispatch(toggleFollowingProgressAC(true, id));
-		let apiMethod = userAPI.unfollow.bind(userAPI);
+		let apiMethod = await userAPI.unfollow.bind(userAPI);
 		let actionCreator = unfollowSuccess;
-		followUnfollowFlow(dispatch, id, apiMethod, actionCreator);
-/*
-                        	      axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${obj.id}`, {
-                        	      	    withCredentials: true,
-                        	      	    headers: {
-                        	      	    	'API-KEY' : '43040dd6-0e63-4499-9314-9afff1dbb86e'
-                        	      	    }
-
-                        	      	})
-
-     let data = await apiMethod(id);
-					  	if(data.resultCode == 0){
-					         dispatch(actionCreator(id));
-					    }
-			dispatch(toggleFollowingProgressAC(false, id)); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
-	*/				                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
+		followUnfollowFlow(dispatch, id, apiMethod, actionCreator);			                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
 	}

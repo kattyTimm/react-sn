@@ -1,74 +1,53 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
-import s from './Users.module.css'; /*elem.location.city}, {elem.location.country}*/
-import {userAPI} from '../../api/api.js';
-// import * as axios from 'axios';
+import s from './Users.module.css'; 
 
-let Users = (props) => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+import Pagination from '../Common/Pagination/Pagination';
 
-  let pages = [];
-  for (let i = 0; i < pagesCount; i++) {
-      pages.push(i+1);
-  }
-
-
-  let pagesPagination = pages.map(num => {
-     return <span className={props.currentPage === num ? s.selectedPage : ''} onClick={(e) => {props.onPageChechged(num)}} key={num}>
-                   {num}
-             </span>
-  });
+let Users = ({onPageChechged, totalUsersCount, pageSize, currentPage, ...props}) => {
 
 return  <div>
-           <div>
-                  {pagesPagination}
 
-           </div>
+          <Pagination onPageChechged={onPageChechged} 
+                      totalUsersCount={totalUsersCount}
+                      pageSize={pageSize}
+                      currentPage={currentPage}
+          />
          {
-              props.users.map(obj => <div key={obj.id}>
-                      <span>
-                         <NavLink to={'/profile/' + obj.id}>
-                             <img src={obj.photos.small !== null ? obj.photos.small : "https://avatarko.ru/img/kartinka/2/Gubka_Bob.jpg"} />
-                         </NavLink>
-                      </span>
-                      <span>
-                      {   obj.followed
-                        ?  <button disabled={props.followingInProgress.some(id => id == obj.id)} onClick={() => {    // followingInProgress - это просто свойство из initialSate из редъюсера                   	
-                        	props.unfollow(obj.id);
+           props.users.map(obj =>  {
+             return <div key={obj.id}>
+                        <span>
+                                <NavLink to={'/profile/' + obj.id}>
+                                     <img src={obj.photos.small !== null ? 
+                                      obj.photos.small 
+                                      : "https://avatarko.ru/img/kartinka/2/Gubka_Bob.jpg"} />
+                                </NavLink>
+                        </span>
 
-                        	   /*   userAPI.unfollow(obj.id)
-									  .then(data => {
-									  	if(data.resultCode == 0){
-									         props.unfollow(obj.id);
-									      }
-									      props.toggleFollowingProgress(false, obj.id); // это функция, она приходит из пропсов из connect, где в toggleFollowingProgress
-									                                            /// передан экшн креэйтор, и так же опрокинута в саму Юзерс
-									  });*/
-                        }
+                        <span>
+                           {obj.followed ?
+                                  <button disabled={props.followingInProgress.some(id => id == obj.id)} 
+                                  onClick={() => {props.unfollow(obj.id)} 
+                           }>
+                                       UnFollow
+                               </button>
 
-                        }>UnFollow</button>
+                          :  <button disabled={props.followingInProgress.some(id => id == obj.id)} 
+                                     onClick={() => {props.follow(obj.id)} }>
+                                       Follow
+                            </button>
+                          }
 
-                        :  <button disabled={props.followingInProgress.some(id => id == obj.id)} onClick={() => {
-                        	props.follow(obj.id);
+                        </span>
 
-                              /*    userAPI.follow(obj.id).then(data => {
-									  	  if(data.resultCode == 0){
-									         props.follow(obj.id);
-									      }
-									      props.toggleFollowingProgress(false, obj.id);
-
-									  }); */
-									}
-                        }>Follow</button>
-                      }
-
-                      </span>
-                      <span>
-                       <span>{obj.name}</span>
-                        <span> {'obj.lacation.city'} , {'obj.lacation.country'} </span>
-                      </span>
-            </div>)
+                        <span>
+                           <span>{obj.name}</span>
+                           <span> {'obj.lacation.city'} , {'obj.lacation.country'} </span>
+                        </span>
+                 </div>
+            })
          }
+
      </div>
 }
 
