@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
 
-import {followAC, unfollowAC, setUsersAC, setCurrentPageAC, 
-         setTotalUsersCountAC, setIsFetchingAC, 
+import {followAC, unfollowAC, setUsersAC, setCurrentPageAC,
+         setTotalUsersCountAC, setIsFetchingAC,
          toggleFollowingProgressAC,  getUsersThunkCreateor,
           unfollowThunk, followThunk} from '../../UsersReducer';
 import Users from './Users';
 import {userAPI} from '../../api/api.js';
 import Preloader from '../Common/Preloader/preloader';
-import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, 
+import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching,
   getFollowingInProgress} from './users-selectors';
 
 
@@ -35,9 +35,9 @@ class UsersContainer extends React.Component{
                     pageSize={this.props.pageSize} currentPage={this.props.currentPage}
                     users={this.props.users} unfollow={this.props.unfollow} follow={this.props.follow}
                     isFetching={this.props.isFetching} followingInProgress={this.props.followingInProgress}
-                   
+
                    />
-              </div>     
+              </div>
             )
   }
 }
@@ -57,7 +57,7 @@ let mapStateToProps = (state) => { // Это  пропсы для функцио
 
 */
 
-let mapStateToProps = (state) => { 
+let mapStateToProps = (state) => {
   return  {
          users: getUsers(state),
          pageSize: getPageSize(state), // количество страниц
@@ -89,10 +89,9 @@ let mapStateToProps = (state) => {
 
 export default compose(
         //  WithAuthRedirect,
-          connect(mapStateToProps, { 
+          connect(mapStateToProps, {
         setCurrentPage: setCurrentPageAC,
         getUsersThunk: getUsersThunkCreateor, // getUsersThunkCreateor придет из UsersReducer и в UsersContainer уже попадет под именем getUsersThunk
         unfollow: unfollowThunk,
         follow: followThunk})
           )(UsersContainer)
-

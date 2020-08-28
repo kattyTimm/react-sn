@@ -25,19 +25,19 @@ export const UsersReducer = (state = initialSate, action) => {
 	switch(action.type){
 		case FOLLOW:
           return {
-          	...state, 
+          	...state,
           	       users: updateObjectInArr(state.users, action.id, 'id', {followed: true})};
           	         /* state.users.map((obj) => {
                       if(obj.id === action.id){
 	                       return {...obj, followed: true};
                         }
                      return obj;
-              }) 
+              })
           	};*/
 
         case UNFOLLOW:
         return {
-        	...state, 
+        	...state,
         	    users: updateObjectInArr(state.users, action.id, 'id', {followed: false})
         	  /*  state.users.map((obj) => {
         	if(obj.id === action.id){

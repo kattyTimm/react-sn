@@ -9,7 +9,7 @@ let Users = ({onPageChechged, totalUsersCount, pageSize, currentPage, ...props})
 return  <div>
 
           <Pagination onPageChechged={onPageChechged}
-                      totalUsersCount={totalUsersCount}
+                      totalItemssCount={totalUsersCount}
                       pageSize={pageSize}
                       currentPage={currentPage}
           />
