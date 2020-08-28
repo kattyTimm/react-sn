@@ -13,20 +13,22 @@ import {initializeApp} from './appReducer';
 import Preloader from './components/Common/Preloader/preloader';
 
 import {BrowserRouter, Route, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import {connect, Provider} from 'react-redux';
 import {compose} from 'redux';
 
 
+import store from './reduxStore';
+
 //  store={props.store}
-class App extends React.Component { 
-  
-  componentDidMount(){		  
+class App extends React.Component {
+
+  componentDidMount(){
          this.props.initializeApp();
 	 }
 
 	  render(){
         if(!this.props.initialazed) {return <Preloader />}
-        else{ 
+        else{
 			  return (
 
 				 <div className="wrapper">
@@ -34,12 +36,12 @@ class App extends React.Component {
 					 <Navbar />
 					 <div className="content">
 						   <Route path = '/dialogs' render={() => <DialogsContainer /> }/>
-						   <Route path = '/profile/:userId?' 
+						   <Route path = '/profile/:userId?'
 						          render={() => <ProfileContainer />} />
 						   <Route path = '/news' render ={() => <NewsContainer  /> } />
 						   <Route path='/music' render = {() => <MusicContainer />} />
-						   <Route path='/users' render = {() => <UsersContainer />} /> 
-						   <Route path='/login' render = {() => <Login />} /> 
+						   <Route path='/users' render = {() => <UsersContainer />} />
+						   <Route path='/login' render = {() => <Login />} />
 					 </div>
 					 <Footer />
 				 </div>
@@ -52,12 +54,27 @@ class App extends React.Component {
 // mapStateToProps - это функция, принимающая state и возвращающая объект
 const mapStateToProps = (state) => ({initialazed: state.app.initialazed});
 
-export default compose(withRouter, 
+/*
+export default compose(withRouter,
+  connect (mapStateToProps, {initializeApp})
+)(App);
+*/
+
+// Из-за оборачивания в connect сбивается роутинг, поээтому нужен  withRouter.
+// А compose используется чтобы избежать большую вложенность hoc в hoc и т.д.
+
+
+
+let AppContainer = compose(withRouter,
   connect (mapStateToProps, {initializeApp})
 )(App);
 
-// Из-за оборачивания в connect сбивается роутинг, поээтому нужен  withRouter. 
-// А compose используется чтобы избежать большую вложенность hoc в hoc и т.д.
+ let MainApp = (state) => {
+	return <BrowserRouter>
+      	    <Provider  store={store}>
+      		     <AppContainer />
+      	  	</Provider>
+  	    </BrowserRouter>
+}
 
-//state={props.state.profile} dispatch={props.dispatch}
-//<Dialogs dialogs={props.data.dialogs} dispatch={props.dispatch} /> }/>
+export default MainApp;

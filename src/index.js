@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import store from './reduxStore';  
+import store from './reduxStore';
 import {BrowserRouter} from 'react-router-dom';
-import App from './App';
+import MainApp from './App';
 import {Provider} from 'react-redux';
 
+// onother index, look  less 91, time - 15.54
 
+ReactDOM.render(
+<BrowserRouter>
+		<Provider  store={store}>
+			 <MainApp />
+	</Provider>
+</BrowserRouter>
+,document.getElementById('root'));
 
-export let renderTree = (state) => {	
+/*
+старая апп
+
+export let renderTree = (state) => {
 	ReactDOM.render(
 	<BrowserRouter>
 	    <Provider  store={store}>
@@ -17,12 +28,15 @@ export let renderTree = (state) => {
 	,document.getElementById('root'));
 }
 
+
 renderTree(store.getState()); // renderTree отрисосвывает Апп
 
 store.subscribe( () => {
 	let state = store.getState();
 	renderTree(state);
 });
+
+*/
 
 /*
 let obj = {
