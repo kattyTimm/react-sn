@@ -1,10 +1,8 @@
-import React from 'react'; // react импортируется из самого node moduls
+import React, {Suspense} from 'react'; // react импортируется из самого node moduls
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import ProfileContainer from './components/Profile/ProfileContainer';
 import Footer from './components/Footer/Footer';
 import Login from './components/Login/Login';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
 import NewsContainer from './components/News/NewsContainer';
 import MusicContainer from './components/Music/MusicContainer';
 import UsersContainer from './components/Users/UsersContainer';
@@ -16,8 +14,14 @@ import {BrowserRouter, Route, withRouter} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
 import {compose} from 'redux';
 
-
 import store from './reduxStore';
+import {SuspenseLoading} from './hoc/SuspenseLoading';
+//import ProfileContainer from './components/Profile/ProfileContainer';
+//import DialogsContainer from './components/Dialogs/DialogsContainer';
+// ProfileContainer и DialogsContainer не пападет в bundle, они загрузятся по надобности
+
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer') );
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer') );
 
 //  store={props.store}
 class App extends React.Component {
@@ -35,9 +39,8 @@ class App extends React.Component {
 			         <HeaderContainer />
 					 <Navbar />
 					 <div className="content">
-						   <Route path = '/dialogs' render={() => <DialogsContainer /> }/>
-						   <Route path = '/profile/:userId?'
-						          render={() => <ProfileContainer />} />
+						   <Route path = '/dialogs' render={ SuspenseLoading(DialogsContainer) }/>
+						   <Route path = '/profile/:userId?' render={ SuspenseLoading(ProfileContainer) } />
 						   <Route path = '/news' render ={() => <NewsContainer  /> } />
 						   <Route path='/music' render = {() => <MusicContainer />} />
 						   <Route path='/users' render = {() => <UsersContainer />} />
