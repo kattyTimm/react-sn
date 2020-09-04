@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/react-sn/static/css/main.0d30d792.chunk.css",
-    "main.js": "/react-sn/static/js/main.54cc3689.chunk.js",
-    "main.js.map": "/react-sn/static/js/main.54cc3689.chunk.js.map",
-    "runtime-main.js": "/react-sn/static/js/runtime-main.85afea94.js",
-    "runtime-main.js.map": "/react-sn/static/js/runtime-main.85afea94.js.map",
-    "static/js/2.98431287.chunk.js": "/react-sn/static/js/2.98431287.chunk.js",
-    "static/js/2.98431287.chunk.js.map": "/react-sn/static/js/2.98431287.chunk.js.map",
+    "main.js": "/react-sn/static/js/main.71c0e3fb.chunk.js",
+    "main.js.map": "/react-sn/static/js/main.71c0e3fb.chunk.js.map",
+    "runtime-main.js": "/react-sn/static/js/runtime-main.e787bea1.js",
+    "runtime-main.js.map": "/react-sn/static/js/runtime-main.e787bea1.js.map",
+    "static/js/2.3cd283d1.chunk.js": "/react-sn/static/js/2.3cd283d1.chunk.js",
+    "static/js/2.3cd283d1.chunk.js.map": "/react-sn/static/js/2.3cd283d1.chunk.js.map",
     "static/css/3.92083721.chunk.css": "/react-sn/static/css/3.92083721.chunk.css",
     "static/js/3.7e813cdd.chunk.js": "/react-sn/static/js/3.7e813cdd.chunk.js",
     "static/js/3.7e813cdd.chunk.js.map": "/react-sn/static/js/3.7e813cdd.chunk.js.map",
     "static/css/4.137be3e4.chunk.css": "/react-sn/static/css/4.137be3e4.chunk.css",
-    "static/js/4.e17e2ba2.chunk.js": "/react-sn/static/js/4.e17e2ba2.chunk.js",
-    "static/js/4.e17e2ba2.chunk.js.map": "/react-sn/static/js/4.e17e2ba2.chunk.js.map",
+    "static/js/4.7d442d06.chunk.js": "/react-sn/static/js/4.7d442d06.chunk.js",
+    "static/js/4.7d442d06.chunk.js.map": "/react-sn/static/js/4.7d442d06.chunk.js.map",
     "index.html": "/react-sn/index.html",
-    "precache-manifest.d4c31d00aa9973c27f0d4891c34922d5.js": "/react-sn/precache-manifest.d4c31d00aa9973c27f0d4891c34922d5.js",
+    "precache-manifest.fa55cf6f91894cae756ea131a3ddace0.js": "/react-sn/precache-manifest.fa55cf6f91894cae756ea131a3ddace0.js",
     "service-worker.js": "/react-sn/service-worker.js",
     "static/css/3.92083721.chunk.css.map": "/react-sn/static/css/3.92083721.chunk.css.map",
     "static/css/4.137be3e4.chunk.css.map": "/react-sn/static/css/4.137be3e4.chunk.css.map",
@@ -22,9 +22,9 @@
     "static/media/preloader.svg": "/react-sn/static/media/preloader.9163217b.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.85afea94.js",
-    "static/js/2.98431287.chunk.js",
+    "static/js/runtime-main.e787bea1.js",
+    "static/js/2.3cd283d1.chunk.js",
     "static/css/main.0d30d792.chunk.css",
-    "static/js/main.54cc3689.chunk.js"
+    "static/js/main.71c0e3fb.chunk.js"
   ]
 }
