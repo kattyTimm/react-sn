@@ -10,7 +10,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import {initializeApp} from './appReducer';
 import Preloader from './components/Common/Preloader/preloader';
 
-import {BrowserRouter, Route, withRouter} from 'react-router-dom';
+import {HashRouter, Route, withRouter} from 'react-router-dom';
 import {connect, Provider} from 'react-redux';
 import {compose} from 'redux';
 
@@ -73,11 +73,11 @@ let AppContainer = compose(withRouter,
 )(App);
 
  let MainApp = (state) => {
-	return <BrowserRouter>
+	return <HashRouter basename={process.env.PUBLIC_URL}>
       	    <Provider  store={store}>
       		     <AppContainer />
       	  	</Provider>
-  	    </BrowserRouter>
+  	    </HashRouter>
 }
 
 export default MainApp;
