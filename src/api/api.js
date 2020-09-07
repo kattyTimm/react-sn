@@ -6,12 +6,12 @@
 // const baseUrl = 'https://social-network.samuraijs.com/api/1.0/';
 
 const instance = axios.create({
-	        baseURL: 'https://social-network.samuraijs.com/api/1.0/', 
+	        baseURL: 'https://social-network.samuraijs.com/api/1.0/',
 	 		withCredentials: true,
 	 		headers: {
                         'API-KEY' : '43040dd6-0e63-4499-9314-9afff1dbb86e'
                       }
-	 	
+
 });
 
 export const userAPI = {
@@ -32,19 +32,19 @@ export const userAPI = {
 
 }
 
-export const authApi ={	
+export const authApi ={
 	getAuth(){
 		return instance.get(`auth/me`);
 	   //  .then(resp=> resp.data);
 	},
 	login: function(email, password, rememberMe = false){
-         return instance.post(`auth/login`, {email, password, rememberMe});   
-	}, 
+         return instance.post(`auth/login`, {email, password, rememberMe});
+	},
 	logout: function(){
            return instance.delete(`auth/login`);
 	}
-}	
-	
+}
+
 export const profileApi = {
 	getProfile(id){
 		return instance.get(`profile/${id}`)
@@ -55,7 +55,19 @@ export const profileApi = {
 	},
 	updateStatus: function(status){
 		return instance.put(`profile/status`, {status: status});
-	}
+	},
+
+  savePhoto(file){
+  
+    let formData = new FormData();
+    formData.append("image", file);
+
+    return instance.put(`profile/photo`, formData , {
+      headers: {
+            'Content-Type': 'multipart/form-data'
+      }
+    });
+  }
 }
 
 export const loginApi = {
@@ -76,7 +88,7 @@ axios.get(`https://social-network.samuraijs.com/api/1.0/profile/`+userId)
 		.then(resp => {
 			this.props.setProfile(resp.data)
 		});
-*/		
+*/
 
 /*
 axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
@@ -84,7 +96,7 @@ axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
 	  })
 	  .then(resp => {
             if(resp.data.resultCode == 0){
-            	// деструктуризация : 
+            	// деструктуризация :
             	let {id, email, login} = resp.data.data;
             	this.props.setAuthUserData(id, email, login); // axios в data упаковывет респонс
             }

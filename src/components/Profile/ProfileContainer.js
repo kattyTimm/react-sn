@@ -8,49 +8,44 @@ import classes from './Profile.module.css';
 import Profile from './Profile';
 import {setProfile} from '../../ProfileReducer';
 import {WithAuthRedirect} from '../../hoc/WithAuthRedirect';
-import {getProfileThunk, updateStatusThunk, setStatusThunk} from '../../ProfileReducer';
+import {getProfileThunk, updateStatusThunk, setStatusThunk, savePhoto} from '../../ProfileReducer';
 
 class ProfileContainer extends React.Component {
 
   refreshProfile(){
-
-	}
-
-	componentDidMount(){
-
-        let userId = this.props.match.params.userId;  // this.props.match.params.userId берет айди пользователя из урла
-        if(!userId){
-        	userId = this.props.authorizedId;
-            if(!userId) {
-            	this.props.history.push("/login")
-            }
+    let userId = this.props.match.params.userId;  // this.props.match.params.userId берет айди пользователя из урла
+    if(!userId){
+      userId = this.props.authorizedId;
+        if(!userId) {
+          this.props.history.push("/login")
         }
+    }
 
 
-        this.props.getProfileThunk(userId);
-        this.props.setStatusThunk(userId);
+    this.props.getProfileThunk(userId);
+    this.props.setStatusThunk(userId);
 	}
 
+
+ /*componentDidMount вызывается единожды, когда компонента монтируется*/
+	componentDidMount(){
+    this.refreshProfile();
+	}
+
+
+
+ /*componentDidUpdate вызывается, когда меняются данные*/
 	componentDidUpdate(prevProps, prevState){
+    if(this.props.match.params.userId != prevProps.match.params.userId) this.refreshProfile();
 
-				let userId = this.props.match.params.userId;  // this.props.match.params.userId берет айди пользователя из урла
-				if(!userId){
-					userId = this.props.authorizedId;
-						if(!userId) {
-							this.props.history.push("/login")
-						}
-				}
-
-
-				this.props.getProfileThunk(userId);
-				this.props.setStatusThunk(userId);
 	}
 
 	   render(){
 
 				return (
 				        <Profile {...this.props}  profile={this.props.profile}
-				         status={this.props.status} updateStatus={this.props.updateStatusThunk}/>
+				         status={this.props.status} updateStatus={this.props.updateStatusThunk}
+                 isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto} />
 					)
 	}
 }
@@ -64,7 +59,7 @@ let mapStateToProps = (state) => ({
 });
 
 export default compose(
- 	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk}),
+ 	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk, savePhoto}),
  	 withRouter,
   //   WithAuthRedirect,
  	)(ProfileContainer);

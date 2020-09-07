@@ -7,6 +7,7 @@ const ADD_POST =  'ADD-POST';
 const SET_PROFILE = 'SET-PROFILE';
 const SET_STATUS = 'SET-STATUS';
 const DELETE_POST = 'DELETE-POST';
+const SET_PHOTO = 'SET-PHOTO';
 
 let initialSate = {
 	posts: [
@@ -41,6 +42,9 @@ export const profileReducer = (state = initialSate, action) => {
 	case DELETE_POST: {
 		return {...state, posts: state.posts.filter(elem => elem.id != action.id)};
 	}
+	case SET_PHOTO: {
+		return {...state, profile: {...state.profile, photos: action.photos}}
+	}
 
 	default:
 	return state;
@@ -52,9 +56,9 @@ export const addPostActionCreator = (newPostText) => ({type: ADD_POST, newPost: 
 //export const addNewPostActionCreator = (val) => ({type: ADD_NEW_POST, newPost: val});
 
 export const deletePost = (id) => ({type: DELETE_POST, id});
-
 const setProfile = (profile) => ({type: SET_PROFILE, profile:profile});
 const setStatus = (status) => ({type: SET_STATUS, status: status});
+const savePhotoSuccess = (photos) => ({type: SET_PHOTO, photos: photos});
 
 export const getProfileThunk = (id) => async dispatch => {
 	 let resp = await	profileApi.getProfile(id);
@@ -75,11 +79,21 @@ export const setStatusThunk = (id) =>  async dispatch => {
            	  dispatch(setStatus(resp.data));
 	}
 
-
 export const updateStatusThunk = (str) => async dispatch => {
         let resp = await profileApi.updateStatus(str);
 
            	  if(resp.data.resultCode === 0){
+								console.log(resp);
            	     dispatch(setStatus(str));
            	  }
+	}
+
+	export const savePhoto = (file) => async dispatch => {
+
+		    let resp = await profileApi.savePhoto(file);
+
+				 if(resp.data.resultCode === 0){
+					 console.log(resp);
+            dispatch(savePhotoSuccess(resp.data.data.photos));
+				 }
 	}

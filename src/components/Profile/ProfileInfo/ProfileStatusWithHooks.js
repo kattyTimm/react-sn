@@ -28,28 +28,27 @@ const ProfileStatusWithHooks = (props) => {
 	}
 
 	useEffect( () => {  // useEffect выполнит какие-то действия когда компонента уже вмотнтируется
-		    debugger;
             setStatus(props.status);
 	}, [props.status] );
 
-	       return( 
+	       return(
 				<div>
 				  { !editMode && // если !editMode, показываем спан (editMode == false)
 						<div>
-						     <span onDoubleClick={activateEditMode}>{props.status || "---------"}</span> 
-				           
+						     <span onDoubleClick={activateEditMode}>{props.status || "---------"}</span>
+
 				       </div>
-			      } 
-			        { editMode &&   // если editMode, показываем инпут 
+			      }
+			        { editMode &&   // если editMode, показываем инпут
 				       <div>
 				           <input autoFocus={true} onBlur={deactivateEditMode} onChange={statusChange} value={status}/>
 				       </div>
-			        } 
-			       
-			       
+			        }
+
+
 				</div>
 			)
-    
+
 }
 
 export default ProfileStatusWithHooks;
