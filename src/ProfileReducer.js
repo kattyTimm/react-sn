@@ -1,4 +1,5 @@
 import React from 'react';
+import {stopSubmit} from 'redux-form';
 import {profileApi} from './api/api';
 
 
@@ -60,6 +61,9 @@ const setProfile = (profile) => ({type: SET_PROFILE, profile:profile});
 const setStatus = (status) => ({type: SET_STATUS, status: status});
 const savePhotoSuccess = (photos) => ({type: SET_PHOTO, photos: photos});
 
+
+// !!! В санку приходит не только диспатч, но и стэйт, смотри функцию saveProfile ниже
+
 export const getProfileThunk = (id) => async dispatch => {
 	 let resp = await	profileApi.getProfile(id);
 
@@ -95,5 +99,22 @@ export const updateStatusThunk = (str) => async dispatch => {
 				 if(resp.data.resultCode === 0){
 					 console.log(resp);
             dispatch(savePhotoSuccess(resp.data.data.photos));
+				 }
+	}
+
+
+	export const saveProfile = (profile) => async (dispatch, getState) => {
+        const userId = getState().auth.id;
+		    let resp = await profileApi.saveProfile(profile);
+debugger
+				 if(resp.data.resultCode === 0){
+					 console.log(resp);
+              dispatch(getProfileThunk(userId));
+				 }else{
+
+
+					   //   dispatch( stopSubmit('profileForm', { "contacts" : {"facebook": resp.data.messages[0]} }) );
+							dispatch( stopSubmit( 'profileForm', {_error: resp.data.messages[0]} ) );
+							return Promise.reject(resp.data.messages[0]);
 				 }
 	}

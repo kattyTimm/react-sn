@@ -11,8 +11,8 @@ import {loginThunk} from '../../auth-reducer';
 const maxLengthLogin20 = maxLengthCreators(20);
 
 const LoginForm = ({handleSubmit, error}) => {
-  
-    return (               
+  //(placeholder, component, name, arr, props = {}, text = "")
+    return (
                <form onSubmit={handleSubmit}>
                     {CreateField ("email", Input, "email", [requiredFields, maxLengthLogin20])}
                     {CreateField("password", Input, "password", [requiredFields, maxLengthLogin20], {type: "password"})}
@@ -21,9 +21,9 @@ const LoginForm = ({handleSubmit, error}) => {
                      <div>
                      {error &&  <div className={s.formSumaryError}>
                                          {error}
-                                     </div>               
-                      }             
-                          <button>Login</button>        
+                                     </div>
+                      }
+                          <button>Login</button>
                      </div>
                </form>
             )
@@ -36,13 +36,13 @@ const LoginReduxForm = reduxForm({
 })(LoginForm);
 
 const Login = ({loginThunk, isAuth}) => {
- 
+
       const onSubmit = (data) => {
          let {email, password, rememberMe} = data;
 
          loginThunk(email, password, rememberMe);
       }
-  
+
      if(isAuth) return <Redirect to={"/profile"} />
 
 	return <div>
@@ -54,4 +54,3 @@ const Login = ({loginThunk, isAuth}) => {
 const mapStateToProps = (state) => ({isAuth: state.auth.isAuth});
 
 export default connect(mapStateToProps, {loginThunk})(Login);
-

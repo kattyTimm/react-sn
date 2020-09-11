@@ -12,3 +12,17 @@
 .contacts{
 	padding-left: 20px;
 }
+
+.formControl.error input, .formControl.error textarea{
+   border: 1px solid red;
+}
+
+.formControl.error span{
+	color: red;
+}
+
+.formSumaryError{
+	border: 1px solid red;
+	padding: 5px;
+    color: pink;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field, reduxForm} from 'redux-form'; 
+import {Field, reduxForm} from 'redux-form';
 
 import classes from './MyPosts.module.css';
 import Post from './Post/Post'
@@ -23,13 +23,13 @@ const ResultPostForm = reduxForm({
 
 const MyPosts = React.memo((props) => {
      console.log('render');
-	let postsElement = props.posts.map( p => <Post message={p.message} id={p.id} likesCount={p.likesCount} />) 
+	let postsElement = props.posts.map( (p, i) => <Post rey={i} message={p.message} id={p.id} likesCount={p.likesCount} />) 
 
 /*
     let BtnClick = () => {
-		props.addNewPost(); 
-	} 
-	
+		props.addNewPost();
+	}
+
 	let postOnchange = () => {
 		let val = newPost.current.value;
 		props.updateNewPost(val);
@@ -38,15 +38,15 @@ const MyPosts = React.memo((props) => {
 */
 	const onSubmit = (data) => {
       	console.log(data);
-		props.addNewPost(data.post); 
+		props.addNewPost(data.post);
       }
 
       console.log(maxLengthCreators())
-	 
+
 	return <div className="MyPosts">
           	     <ResultPostForm  onSubmit={onSubmit} />
-			      {postsElement}	
-			</div>	
+			      {postsElement}
+			</div>
 	});
 
 export default MyPosts;

@@ -8,7 +8,7 @@ import classes from './Profile.module.css';
 import Profile from './Profile';
 import {setProfile} from '../../ProfileReducer';
 import {WithAuthRedirect} from '../../hoc/WithAuthRedirect';
-import {getProfileThunk, updateStatusThunk, setStatusThunk, savePhoto} from '../../ProfileReducer';
+import {getProfileThunk, updateStatusThunk, setStatusThunk, savePhoto, saveProfile} from '../../ProfileReducer';
 
 class ProfileContainer extends React.Component {
 
@@ -20,8 +20,6 @@ class ProfileContainer extends React.Component {
           this.props.history.push("/login")
         }
     }
-
-
     this.props.getProfileThunk(userId);
     this.props.setStatusThunk(userId);
 	}
@@ -45,7 +43,8 @@ class ProfileContainer extends React.Component {
 				return (
 				        <Profile {...this.props}  profile={this.props.profile}
 				         status={this.props.status} updateStatus={this.props.updateStatusThunk}
-                 isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto} />
+                 isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto}
+                 saveProfile={this.props.saveProfile}/>
 					)
 	}
 }
@@ -59,7 +58,7 @@ let mapStateToProps = (state) => ({
 });
 
 export default compose(
- 	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk, savePhoto}),
+ 	connect(mapStateToProps, {getProfileThunk, setStatusThunk, updateStatusThunk, savePhoto, saveProfile}),
  	 withRouter,
   //   WithAuthRedirect,
  	)(ProfileContainer);

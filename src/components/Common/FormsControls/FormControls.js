@@ -9,9 +9,9 @@ const FormControl = ({input, meta: {touched, error}, child,...props}) => {
 
 	return <div className={s.formControl + ' ' + (hasError ? s.error : "")}>
 		       <div>
-		           {props.children}
-		        </div>   
-		        { hasError && <span>{error}</span> }
+		             {props.children}
+		        </div>
+		             { hasError && <span>{error}</span> }
        	   </div>
 }
 
@@ -32,9 +32,9 @@ export const Input = (props) => {
    	       </FormControl>
 }
 
-export const CreateField = (placeholder, component, name, arr, props = {}, text = "") => (<div> 
-                                                                       <Field placeholder={placeholder} 
-                                                                       component={component} name={name} 
-                                                                       validate={arr} 
+export const CreateField = (placeholder, component, name, arr, props = {}, text = "") => (<div>
+                                                                       <Field placeholder={placeholder}
+                                                                       component={component} name={name}
+                                                                       validate={arr}
                                                                          {...props} /> {text}
                                                                     </div>);

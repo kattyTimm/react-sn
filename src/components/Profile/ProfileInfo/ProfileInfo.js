@@ -3,9 +3,10 @@ import classes from './ProfileInfo.module.css';
 import Preloader from '../../Common/Preloader/preloader';
 
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
+import ProfileFormReduxForm from './ProfileForm';
 import userPhoto from '../../../img/user_photo.jpg';
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({saveProfile, ...props}) => {
   let [editMode, setEditMode] = useState(props.status);
 
   if(!props.profile){
@@ -18,17 +19,23 @@ const ProfileInfo = (props) => {
      }
   }
 
-  const toEditMode = () =>{
+  const onSubmit = (formData) => {
+      saveProfile(formData).then(
+        () => {
+                setEditMode(false)
+             }
+      )
+      //
 
   }
 
 	return <div className="ProfileInfo">
 		         <div>
-				    <img src="https://im0-tub-ru.yandex.net/i?id=44675ac9a817fef8da7d097ec3c25273&n=13"  className={classes.ava}/>
+				        <img src={props.profile.photos.large || userPhoto}  className={classes.mainPhoto}/>
 			     </div>
 
 				 <div>
-            {editMode ?  <ProfileForm profile={props.profile} />
+            {editMode ?  <ProfileFormReduxForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit}/>
 					            :  <ProfileData profile={props.profile} isOwner={props.isOwner} onMainPhotoSelected={onMainPhotoSelected}
                                       goToEditMode={ () => {setEditMode(true)} }/>
             }
@@ -37,26 +44,19 @@ const ProfileInfo = (props) => {
 			</div>
 }
 
-const ProfileData = ({profile, isOwner, onMainPhotoSelected, toEditMode}) => {
+const ProfileData = ({profile, isOwner, onMainPhotoSelected, goToEditMode}) => {
    return <div>
 
-             <div>
+             <div> <p><button onClick={goToEditMode}>edit</button></p>
                    <p>full Name: {profile.fullName}</p>
                    <p>looking for a job: {profile.lookingForAJob ? 'yes' : 'no'} </p>
                    {profile.lookingForAJob &&
                        <p>professionals skills: {profile.lookingForAJobDescription} </p>
                    }
-
-                  {Object.keys(profile.contacts).map((key, i) => <Contacts className={classes.contacts} key={i} contactTitle={key} contactValue={profile.contacts.key}/>) }
-
-                  {isOwner && <div>
-                                 <p><button onClick={goToEditMode}>edit profile</button></p>
-                              </div>
-                  }
+                   <p>about me: </p>
+                   {Object.keys(profile.contacts).map(c => <Contacts key={c} contactTitle={c} contactValue={profile.contacts[c]}/>)}
              </div>
 
-
-             <img src={profile.photos.large || userPhoto}  className={classes.mainPhoto}/>
              {isOwner && <div>
                             <p><input type="file" onChange={onMainPhotoSelected}/></p>
                          </div>
@@ -64,23 +64,7 @@ const ProfileData = ({profile, isOwner, onMainPhotoSelected, toEditMode}) => {
    </div>
 }
 
-const ProfileForm = ({profile}) => {
-   return <form>
 
-             <div>
-                   <p>full Name: {profile.fullName}</p>
-                   <p>looking for a job: {profile.lookingForAJob ? 'yes' : 'no'} </p>
-                   {profile.lookingForAJob &&
-                       <p>professionals skills: {profile.lookingForAJobDescription} </p>
-                   }
-
-                  {Object.keys(profile.contacts).map((key, i) => <Contacts className={classes.contacts} key={i} contactTitle={key} contactValue={profile.contacts.key}/>) }
-
-             </div>
-             <img src={profile.photos.large || userPhoto}  className={classes.mainPhoto}/>
-
-   </form>
-}
 
 const Contacts = ({contactTitle, contactValue, ...props}) => {
   return <div>
@@ -89,6 +73,11 @@ const Contacts = ({contactTitle, contactValue, ...props}) => {
 }
 
 export default ProfileInfo;
+
+/*
+
+
+*/
 
 
 // условие {props.profile.photos.large || userPhoto} говорит о том что если props.profile.photos.large вернет false, то пойдет выполняться следующее условие
