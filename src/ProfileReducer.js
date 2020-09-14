@@ -106,13 +106,13 @@ export const updateStatusThunk = (str) => async dispatch => {
 	export const saveProfile = (profile) => async (dispatch, getState) => {
         const userId = getState().auth.id;
 		    let resp = await profileApi.saveProfile(profile);
-debugger
+
 				 if(resp.data.resultCode === 0){
 					 console.log(resp);
               dispatch(getProfileThunk(userId));
 				 }else{
 
-
+              console.log(resp.data.messages);
 					   //   dispatch( stopSubmit('profileForm', { "contacts" : {"facebook": resp.data.messages[0]} }) );
 							dispatch( stopSubmit( 'profileForm', {_error: resp.data.messages[0]} ) );
 							return Promise.reject(resp.data.messages[0]);

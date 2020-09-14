@@ -81,6 +81,12 @@ export const loginApi = {
 	}
 }
 
+export const securityAPI = {
+    getCaptchaUrl: function(){
+      return instance.get(`/security/get-captcha-url`);
+    }
+}
+
 const double = {
 	profile(param){
 		return profileApi.getProfile(param);
