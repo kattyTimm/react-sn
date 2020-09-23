@@ -16,7 +16,6 @@ import {getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching
 class UsersContainer extends React.Component{
 
     componentDidMount(){
-    debugger;
        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize);
     }
 
@@ -26,20 +25,19 @@ class UsersContainer extends React.Component{
 
     }
 
-  render(){
+    render(){
+      return  (<div>
+                <div> {this.props.isFetching ? <Preloader /> : null} </div>
 
-    return  (<div>
-              <div> {this.props.isFetching ? <Preloader /> : null} </div>
+                 <Users onPageChechged={this.onPageChechged} totalUsersCount={this.props.totalUsersCount}
+                      pageSize={this.props.pageSize} currentPage={this.props.currentPage}
+                      users={this.props.users} unfollow={this.props.unfollow} follow={this.props.follow}
+                      isFetching={this.props.isFetching} followingInProgress={this.props.followingInProgress}
 
-               <Users onPageChechged={this.onPageChechged} totalUsersCount={this.props.totalUsersCount}
-                    pageSize={this.props.pageSize} currentPage={this.props.currentPage}
-                    users={this.props.users} unfollow={this.props.unfollow} follow={this.props.follow}
-                    isFetching={this.props.isFetching} followingInProgress={this.props.followingInProgress}
-
-                   />
-              </div>
-            )
-  }
+                     />
+                </div>
+              )
+    }
 }
 
 

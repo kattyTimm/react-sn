@@ -36,17 +36,18 @@ class App extends React.Component {
 			  return (
 
 				 <div className="wrapper">
-			         <HeaderContainer />
-					 <Navbar />
-					 <div className="content">
-						   <Route path = '/dialogs' render={ SuspenseLoading(DialogsContainer) }/>
-						   <Route path = '/profile/:userId?' render={ SuspenseLoading(ProfileContainer) } />
-						   <Route path = '/news' render ={() => <NewsContainer  /> } />
-						   <Route path='/music' render = {() => <MusicContainer />} />
-						   <Route path='/users' render = {() => <UsersContainer />} />
-						   <Route path='/login' render = {() => <Login />} />
-					 </div>
-					 <Footer />
+  			     <HeaderContainer />
+  					 <Navbar />
+  					 <div className="content">
+  						   <Route path = '/dialogs' render={ SuspenseLoading(DialogsContainer) }/>
+  						   <Route path = '/profile/:userId?' render={ SuspenseLoading(ProfileContainer) } />
+  						   <Route path = '/news' render ={() => <NewsContainer  /> } />
+  						   <Route path='/music' render = {() => <MusicContainer />} />
+  						   <Route path='/users' render = {() => <UsersContainer />} />
+  						   <Route path='/login' render = {() => <Login />} />
+                 <Route path='*' render={ () => <div>404 NOT FOUND</div>}/>
+  					 </div>
+  					 <Footer />
 				 </div>
 
 		   	  );
@@ -72,6 +73,8 @@ let AppContainer = compose(withRouter,
   connect (mapStateToProps, {initializeApp})
 )(App);
 
+
+// Provider глобально создает контекст (здесь это store={store}), поэтому он потом доступен в AppContainer и следовательно во всех компонентах через пропсы
  let MainApp = (state) => {
 	return <HashRouter basename={process.env.PUBLIC_URL}>
       	    <Provider  store={store}>
