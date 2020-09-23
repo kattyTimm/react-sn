@@ -37,8 +37,8 @@ export const authApi ={
 		return instance.get(`auth/me`);
 	   //  .then(resp=> resp.data);
 	},
-	login: function(email, password, rememberMe = false){
-         return instance.post(`auth/login`, {email, password, rememberMe});
+	login: function(email, password, rememberMe = false, captcha = null){
+         return instance.post(`auth/login`, {email, password, rememberMe, captcha});
 	},
 	logout: function(){
            return instance.delete(`auth/login`);

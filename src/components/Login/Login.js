@@ -10,19 +10,22 @@ import {loginThunk} from '../../auth-reducer';
 
 const maxLengthLogin20 = maxLengthCreators(20);
 
-const LoginForm = ({handleSubmit, error}) => {
-  //(placeholder, component, name, arr, props = {}, text = "")
+const LoginForm = ({handleSubmit, error, captchaUrl}) => {
+//debugger;
     return (
                <form onSubmit={handleSubmit}>
                     {CreateField ("email", Input, "email", [requiredFields, maxLengthLogin20])}
                     {CreateField("password", Input, "password", [requiredFields, maxLengthLogin20], {type: "password"})}
-                    {CreateField(null, Input, "rememberMe", [], {type: "checkbox"}, "remember me")}  
+                    {CreateField(null, Input, "rememberMe", [], {type: "checkbox"}, "remember me")}
 
                      <div>
-                     {error &&  <div className={s.formSumaryError}>
-                                         {error}
-                                     </div>
-                      }
+                         {captchaUrl && <img src={captchaUrl} />}
+                         {captchaUrl &&   CreateField('enter symbols', Input, "captcha", [requiredFields])  }
+
+                         {error &&  <div className={s.formSumaryError}>
+                                             {error}
+                                         </div>
+                          }
                           <button>Login</button>
                      </div>
                </form>
@@ -35,22 +38,22 @@ const LoginReduxForm = reduxForm({
     form: 'login'  // имя формы в state (state.form.post), уникальное имя формы
 })(LoginForm);
 
-const Login = ({loginThunk, isAuth}) => {
+const Login = ({loginThunk, isAuth, ...props}) => {
 
       const onSubmit = (data) => {
-         let {email, password, rememberMe} = data;
+         let {email, password, rememberMe, captcha} = data;
 
-         loginThunk(email, password, rememberMe);
+        loginThunk(email, password, rememberMe, captcha);
       }
 
      if(isAuth) return <Redirect to={"/profile"} />
 
 	return <div>
   			   <h1> Login </h1>
-  			   <LoginReduxForm onSubmit={onSubmit}/>
+  			   <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captcha}/>
 	       </div>
 }
 
-const mapStateToProps = (state) => ({isAuth: state.auth.isAuth});
+const mapStateToProps = (state) => ({isAuth: state.auth.isAuth, captcha: state.auth.captchaUrl});
 
 export default connect(mapStateToProps, {loginThunk})(Login);
